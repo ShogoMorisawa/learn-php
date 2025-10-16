@@ -1,0 +1,50 @@
+# ============================================
+# PHP Template .gitignore
+# ============================================
+
+# Composer Dependencies
+# vendorフォルダは各開発者が `composer install` で作成するため、共有しない
+/vendor/
+
+# Node.js Dependencies
+# node_modulesフォルダも `npm install` で作成するため、共有しない
+/node_modules/
+
+# Environment Variables
+# .envファイルにはパスワードなど秘密情報を含むため、絶対に共有しない
+.env
+.env.*
+!.env.example
+
+# IDE & Editor Configuration
+# .vscode/ や .idea/ は個人の設定を含むことがあるため、共有しない
+# ただし、チームで共有したい設定ファイルは ! で例外的に許可する
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs & Cache
+*.log
+/logs/
+/log/
+/cache/
+/tmp/
+/temp/
+.phpunit.result.cache
+.php-cs-fixer.cache
+.eslintcache
+
+# Build & Test Artifacts
+/build/
+/dist/
+/coverage/
+
+# Uploads & User Content
+# ユーザーがアップロードしたファイルはリポジトリに含めない
+/uploads/
+/public/uploads/
