@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body class="login">
    
@@ -12,23 +12,23 @@
     <nav>
         <ul>
             <li>
-                <a href="index.html">Home</a>
+                <a href="/">Home</a>
             </li>
     
             <!-- When the user is logged in -->
             <li>
-                <a href="admin.html">Admin</a>
+                <a href="/admin">Admin</a>
             </li>
             <li>
-                <a href="logout.html">Logout</a>
+                <a href="/logout">Logout</a>
             </li>
     
             <!-- When the user is not logged in -->
             <li>
-                <a href="register.html">Register</a>
+                <a href="/register">Register</a>
             </li>
             <li>
-                <a href="login.html">Login</a>
+                <a href="/login">Login</a>
             </li>
         </ul>
     </nav>

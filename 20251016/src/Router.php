@@ -3,6 +3,7 @@
 namespace Shogomorisawa\Project;
 
 use Shogomorisawa\Project\Controllers\HomeController;
+use Shogomorisawa\Project\Controllers\RegisterController;
 
 class Router
 {
@@ -17,7 +18,8 @@ class Router
     {
         $this->routes = [
             'GET' => [
-                '/' => [HomeController::class, 'index'],
+                '/' => [HomeController::class, 'index', false],
+                '/register' => [RegisterController::class, 'showRegisterForm', true],
             ],
             'POST' => [],
         ];
@@ -29,9 +31,14 @@ class Router
         $path = parse_url($requestUri, PHP_URL_PATH);
 
         if (isset($this->routes[$requestMethod][$path])) {
-            [$controllerClass, $method] = $this->routes[$requestMethod][$path];
+            [$controllerClass, $method, $needDB] = $this->routes[$requestMethod][$path];
 
-            $controller = new $controllerClass();
+            if ($needDB) {
+                global $connection;
+                $controller = new $controllerClass($connection);
+            } else {
+                $controller = new $controllerClass();
+            }
             return $controller->$method() ?? '';
         }
 
