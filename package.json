@@ -1,0 +1,13 @@
+{
+  "name": "learn-php",
+  "version": "1.0.0",
+  "description": "PHP学習プロジェクト",
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@prettier/plugin-php": "^0.24.0",
+    "prettier": "^3.6.2"
+  }
+}

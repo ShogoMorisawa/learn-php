@@ -1,14 +1,19 @@
 <?php
 
-namespace Shogomorisawa\PhpTemplate\Controllers;
-
-include_once __DIR__ . '/../../config/database.php';
+namespace Shogomorisawa\Project\Controllers;
 
 class RegisterController
 {
     public function __construct(private $connection) {}
 
-    public function register(): string
+    public function showRegisterForm(): string
+    {
+        ob_start();
+        include __DIR__ . '/../views/register.php';
+        return ob_get_clean();
+    }
+
+    public function register()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // フォームから送られてきたデータを、安全な形にして変数に入れる
