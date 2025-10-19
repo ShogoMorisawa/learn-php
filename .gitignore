@@ -1,0 +1,88 @@
+# ============================================
+# PHP Learning Project .gitignore
+# ============================================
+
+# Composer Dependencies
+# vendorフォルダは各開発者が `composer install` で作成するため、共有しない
+**/vendor/
+vendor/
+
+# Node.js Dependencies
+# node_modulesフォルダも `npm install` で作成するため、共有しない
+**/node_modules/
+node_modules/
+
+# Package Lock Files (optional - チーム開発では含める場合もある)
+# package-lock.json
+# composer.lock
+
+# Environment Variables
+# .envファイルにはパスワードなど秘密情報を含むため、絶対に共有しない
+.env
+.env.*
+!.env.example
+
+# IDE & Editor Configuration
+# .vscode/ や .idea/ は個人の設定を含むことがあるため、共有しない
+# ただし、チームで共有したい設定ファイルは ! で例外的に許可する
+**/.vscode/*
+!**/.vscode/settings.json
+!**/.vscode/extensions.json
+**/.idea/
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs & Cache
+*.log
+**/logs/
+**/log/
+**/cache/
+**/tmp/
+**/temp/
+.phpunit.result.cache
+.php-cs-fixer.cache
+.eslintcache
+
+# Build & Test Artifacts
+**/build/
+**/dist/
+**/coverage/
+
+# Uploads & User Content
+# ユーザーがアップロードしたファイルはリポジトリに含めない
+**/uploads/
+**/public/uploads/
+uploads/
+public/uploads/
+
+# Database Files (if using SQLite)
+*.sqlite
+*.sqlite3
+*.db
+
+# Backup Files
+*.bak
+*.backup
+*.old
+
+# Temporary Files
+*.tmp
+*.temp
+*~
+
+# PHP Specific
+# Composer autoload files (通常は含めるが、学習プロジェクトでは除外)
+# vendor/autoload.php
+
+# Configuration files with sensitive data
+config/database.php
+config/local.php
