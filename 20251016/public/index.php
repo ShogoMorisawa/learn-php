@@ -2,6 +2,9 @@
 // まず最初にComposerのオートローダーを読み込む（超重要）
 require_once __DIR__ . '/../vendor/autoload.php';
 
+// データベース接続を読み込む
+require_once __DIR__ . '/../config/database.php';
+
 use Shogomorisawa\Project\Router;
 
 // ブラウザがリクエストしたURLとHTTPメソッドを取得
