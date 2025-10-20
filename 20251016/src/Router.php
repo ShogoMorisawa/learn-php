@@ -21,7 +21,9 @@ class Router
                 '/' => [HomeController::class, 'index', false],
                 '/register' => [RegisterController::class, 'showRegisterForm', true],
             ],
-            'POST' => [],
+            'POST' => [
+                '/register' => [RegisterController::class, 'register', true],
+            ],
         ];
     }
 

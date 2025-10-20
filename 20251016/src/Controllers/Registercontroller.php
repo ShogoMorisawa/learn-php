@@ -2,9 +2,16 @@
 
 namespace Shogomorisawa\Project\Controllers;
 
+use Shogomorisawa\Project\Models\UserModel;
+
 class RegisterController
 {
-    public function __construct(private $connection) {}
+    private UserModel $userModel;
+
+    public function __construct(private $connection)
+    {
+        $this->userModel = new UserModel($connection);
+    }
 
     public function showRegisterForm(): string
     {
@@ -17,13 +24,21 @@ class RegisterController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // フォームから送られてきたデータを、安全な形にして変数に入れる
-            $username = mysqli_real_escape_string($this->connection, $_POST['username']);
-            $email = mysqli_real_escape_string($this->connection, $_POST['email']);
-            $password = mysqli_real_escape_string($this->connection, $_POST['password']);
-            $confirm_password = mysqli_real_escape_string(
-                $this->connection,
-                $_POST['confirm_password'],
-            );
+            $username = $_POST['username'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $data = [
+                'username' => $username,
+                'email' => $email,
+                'password' => $password,
+                'confirm_password' => $confirm_password,
+            ];
+
+            if ($this->userModel->register($data)) {
+                header('Location: /login');
+                exit();
+            }
         }
     }
 }

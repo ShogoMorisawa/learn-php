@@ -6,6 +6,8 @@ class HomeController
 {
     public function index(): string
     {
-        return 'トップページです';
+        ob_start();
+        include __DIR__ . '/../views/index.php';
+        return ob_get_clean();
     }
 }
