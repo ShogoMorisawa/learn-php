@@ -7,29 +7,7 @@
     <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
-    <nav>
-        <ul>
-            <li>
-                <a href="index.html">Home</a>
-            </li>
-    
-            <!-- When the user is logged in -->
-            <li>
-                <a href="admin.html">Admin</a>
-            </li>
-            <li>
-                <a href="logout.html">Logout</a>
-            </li>
-    
-            <!-- When the user is not logged in -->
-            <li>
-                <a href="register.html">Register</a>
-            </li>
-            <li>
-                <a href="login.html">Login</a>
-            </li>
-        </ul>
-    </nav>
+    <?php include __DIR__ . '/partials/navigation.php'; ?>
 
     <div style="padding:10px" class="container">
         <h1>HHmmmm, what are you doing here my dear student ? </h1>

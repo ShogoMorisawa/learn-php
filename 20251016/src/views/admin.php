@@ -10,29 +10,7 @@
 
 </head>
 <body class="admin">
-<nav>
-    <ul>
-        <li>
-            <a href="/">Home</a>
-        </li>
-
-        <!-- When the user is logged in -->
-        <li>
-            <a href="/admin">Admin</a>
-        </li>
-        <li>
-            <a href="/logout">Logout</a>
-        </li>
-
-        <!-- When the user is not logged in -->
-        <li>
-            <a href="/register">Register</a>
-        </li>
-        <li>
-            <a href="/login">Login</a>
-        </li>
-    </ul>
-</nav>
+<?php include __DIR__ . '/partials/navigation.php'; ?>
 
 <h1>Manage Users</h1>
 

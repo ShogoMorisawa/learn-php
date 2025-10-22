@@ -7,37 +7,20 @@
     <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body class="index">
-<nav>
-    <ul>
-        <li>
-            <a href="/">Home</a>
-        </li>
-
-        <!-- When the user is logged in -->
-        <li>
-            <a href="/admin">Admin</a>
-        </li>
-        <li>
-            <a href="/logout">Logout</a>
-        </li>
-
-        <!-- When the user is not logged in -->
-        <li>
-            <a href="/register">Register</a>
-        </li>
-        <li>
-            <a href="/login">Login</a>
-        </li>
-    </ul>
-</nav>
+<?php include __DIR__ . '/partials/navigation.php'; ?>
 <div class="container">
 <div class="hero">
     <div class="hero-content">
         <h1>Welcome to our PHP App</h1>
         <p>Securely login and manage your account with us</p>
         <div class="hero-buttons">
-            <a class="btn" href="/login">Login</a>
-            <a class="btn" href="/register">Register</a>
+            <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true): ?>
+                <a class="btn" href="/admin">Admin</a>
+                <a class="btn" href="/logout">Logout</a>
+            <?php else: ?>
+                <a class="btn" href="/login">Login</a>
+                <a class="btn" href="/register">Register</a>
+            <?php endif; ?>
         </div>
     </div>
 </div>

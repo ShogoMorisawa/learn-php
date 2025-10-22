@@ -8,6 +8,7 @@ use Shogomorisawa\Project\Controllers\RegisterController;
 use Shogomorisawa\Project\Controllers\LoginFormController;
 use Shogomorisawa\Project\Controllers\LoginController;
 use Shogomorisawa\Project\Controllers\AdminController;
+use Shogomorisawa\Project\Controllers\LogoutController;
 
 class Router
 {
@@ -26,6 +27,7 @@ class Router
                 '/register' => [RegisterFormController::class, 'show', false],
                 '/login' => [LoginFormController::class, 'show', false],
                 '/admin' => [AdminController::class, 'show', true],
+                '/logout' => [LogoutController::class, 'logout', false],
             ],
             'POST' => [
                 '/register' => [RegisterController::class, 'register', true],
