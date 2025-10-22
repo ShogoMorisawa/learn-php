@@ -35,4 +35,17 @@ class UserModel
             return 'ユーザー登録に失敗しました' . mysqli_error($this->connection);
         }
     }
+
+    public function authenticate(string $username, string $password): bool
+    {
+        $sql_select_user = "SELECT * FROM users WHERE username = '$username' LIMIT 1";
+        $result_select_user = mysqli_query($this->connection, $sql_select_user);
+        if (mysqli_num_rows($result_select_user) === 1) {
+            $user = mysqli_fetch_assoc($result_select_user);
+            if (password_verify($password, $user['password'])) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
