@@ -32,6 +32,8 @@ class Router
             'POST' => [
                 '/register' => [RegisterController::class, 'register', true],
                 '/login' => [LoginController::class, 'login', true],
+                '/admin/edit' => [AdminController::class, 'edit', true],
+                '/admin/delete' => [AdminController::class, 'delete', true],
             ],
         ];
     }

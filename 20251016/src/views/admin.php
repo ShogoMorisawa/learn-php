@@ -38,7 +38,24 @@
                             'UTF-8',
                         ) ?></td>
                         <td>
-                            <!-- 編集/削除フォームをここに -->
+                            <form method="POST" style="display:inline-block;" action="/admin/edit">
+                                <input type="hidden" name="user_id" value="<?php echo $user[
+                                    'id'
+                                ]; ?>">
+                                <input type="text" name="username" value="<?php echo $user[
+                                    'username'
+                                ]; ?>" required>
+                                <input type="email" name="email" value="<?php echo $user[
+                                    'email'
+                                ]; ?>" required>
+                                <button class="edit" type="submit" name="edit_user">Edit</button>
+                            </form>
+                            <form method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this user?');" action="/admin/delete">
+                                <input type="hidden" name="user_id" value="<?php echo $user[
+                                    'id'
+                                ]; ?>">
+                                <button class="delete" type="submit" name="delete_user">Delete</button>
+                            </form>                        
                         </td>
                     </tr>
                 <?php endforeach; ?>
