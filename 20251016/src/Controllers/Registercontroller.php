@@ -13,13 +13,6 @@ class RegisterController
         $this->userModel = new UserModel($connection);
     }
 
-    public function showRegisterForm(): string
-    {
-        ob_start();
-        include __DIR__ . '/../views/register.php';
-        return ob_get_clean();
-    }
-
     public function register()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

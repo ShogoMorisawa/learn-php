@@ -4,6 +4,8 @@ namespace Shogomorisawa\Project;
 
 use Shogomorisawa\Project\Controllers\HomeController;
 use Shogomorisawa\Project\Controllers\RegisterController;
+use Shogomorisawa\Project\Controllers\RegisterFormController;
+use Shogomorisawa\Project\Controllers\LoginController;
 
 class Router
 {
@@ -19,10 +21,12 @@ class Router
         $this->routes = [
             'GET' => [
                 '/' => [HomeController::class, 'index', false],
-                '/register' => [RegisterController::class, 'showRegisterForm', true],
+                '/register' => [RegisterFormController::class, 'show', false],
+                '/login' => [LoginController::class, 'showLoginForm', true],
             ],
             'POST' => [
                 '/register' => [RegisterController::class, 'register', true],
+                '/login' => [LoginController::class, 'login', true],
             ],
         ];
     }
