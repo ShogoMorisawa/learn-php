@@ -41,10 +41,7 @@
             <form method="POST" action="">
                 <h2>Login</h2>
     
-                <!-- Error message placeholder -->
-                <p style="color:red">
-                    <!-- Error message goes here -->
-                </p>
+                <?php include __DIR__ . '/partials/flash.php'; ?>
     
                 <label for="username">Username:</label><br>
                 <input type="text" name="username" required><br><br>

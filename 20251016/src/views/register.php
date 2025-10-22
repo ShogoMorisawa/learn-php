@@ -38,10 +38,7 @@
         <form method="POST" action="/register">
             <h2>Create your Account</h2>
 
-            <!-- Error message placeholder -->
-            <p style="color:red">
-                <!-- Error message goes here -->
-            </p>
+            <?php include __DIR__ . '/partials/flash.php'; ?>
 
             <label for="username">Username:</label>
             <input placeholder="Enter your username" type="text" name="username" required>
