@@ -7,6 +7,8 @@ use Shogomorisawa\Project\Controllers\RegisterFormController;
 use Shogomorisawa\Project\Controllers\RegisterController;
 use Shogomorisawa\Project\Controllers\LoginFormController;
 use Shogomorisawa\Project\Controllers\LoginController;
+use Shogomorisawa\Project\Controllers\AdminController;
+
 class Router
 {
     private array $routes = [];
@@ -23,6 +25,7 @@ class Router
                 '/' => [HomeController::class, 'index', false],
                 '/register' => [RegisterFormController::class, 'show', false],
                 '/login' => [LoginFormController::class, 'show', false],
+                '/admin' => [AdminController::class, 'show', true],
             ],
             'POST' => [
                 '/register' => [RegisterController::class, 'register', true],
