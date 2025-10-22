@@ -56,4 +56,11 @@ class UserModel
         }
         return password_verify($password, $row['password']);
     }
+
+    public function getAllUsers(): array
+    {
+        $stmt = $this->pdo->prepare('SELECT id, username, email, reg_date FROM users ORDER BY id ASC');
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
