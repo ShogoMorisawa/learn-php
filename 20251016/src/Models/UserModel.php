@@ -1,51 +1,59 @@
 <?php
-
 namespace Shogomorisawa\Project\Models;
+
+use PDO;
+use PDOException;
 
 class UserModel
 {
-    public function __construct(private $connection) {}
+    public function __construct(private PDO $pdo) {}
 
-    public function register(array $data): bool|string
-    {
-        $username = mysqli_real_escape_string($this->connection, $data['username']);
-        $email = mysqli_real_escape_string($this->connection, $data['email']);
-        $password = mysqli_real_escape_string($this->connection, $data['password']);
-        $confirm_password = mysqli_real_escape_string($this->connection, $data['confirm_password']);
-
+    public function register(
+        string $username,
+        string $email,
+        string $password,
+        string $confirm_password,
+    ): true|string {
         if ($password !== $confirm_password) {
             return 'パスワードが一致しません';
         }
 
-        $sql_check = "SELECT id FROM users WHERE username = '$username' LIMIT 1";
-        $result_check = mysqli_query($this->connection, $sql_check);
-
-        if (mysqli_num_rows($result_check) > 0) {
-            return 'そのユーザー名はすでに使用されています';
-        }
-
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql_insert = "INSERT INTO users (username, password, email) VALUES ('$username', '$hashed_password', '$email')";
-        $result_insert = mysqli_query($this->connection, $sql_insert);
+        try {
+            $check = $this->pdo->prepare(
+                'SELECT id FROM users WHERE username = ? OR email = ? LIMIT 1',
+            );
+            $check->execute([$username, $email]);
+            if ($check->fetch()) {
+                return 'そのユーザー名またはメールアドレスは既に使われています。';
+            }
 
-        if ($result_insert) {
+            $stmt = $this->pdo->prepare(
+                'INSERT INTO users (username, email, password) VALUES (?, ?, ?)',
+            );
+            $stmt->execute([$username, $email, $hashed_password]);
+
             return true;
-        } else {
-            return 'ユーザー登録に失敗しました' . mysqli_error($this->connection);
+        } catch (PDOException $e) {
+            if (isset($e->errorInfo[1]) && $e->errorInfo[1] === 1062) {
+                return 'そのユーザー名またはメールアドレスは既に使われています。';
+            }
+            return '内部エラーが発生しました。時間をおいて再度お試しください。';
         }
     }
 
     public function authenticate(string $username, string $password): bool
     {
-        $sql_select_user = "SELECT * FROM users WHERE username = '$username' LIMIT 1";
-        $result_select_user = mysqli_query($this->connection, $sql_select_user);
-        if (mysqli_num_rows($result_select_user) === 1) {
-            $user = mysqli_fetch_assoc($result_select_user);
-            if (password_verify($password, $user['password'])) {
-                return true;
-            }
+        $stmt = $this->pdo->prepare(
+            'SELECT id, username, password FROM users WHERE username = ? LIMIT 1',
+        );
+        $stmt->execute([$username]);
+
+        $row = $stmt->fetch();
+        if (!$row) {
+            return false;
         }
-        return false;
+        return password_verify($password, $row['password']);
     }
 }

@@ -40,8 +40,8 @@ class Router
             [$controllerClass, $method, $needDB] = $this->routes[$requestMethod][$path];
 
             if ($needDB) {
-                global $connection;
-                $controller = new $controllerClass($connection);
+                global $pdo;
+                $controller = new $controllerClass($pdo);
             } else {
                 $controller = new $controllerClass();
             }
