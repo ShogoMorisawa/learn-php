@@ -48,3 +48,5 @@ Thumbs.db
 # ユーザーがアップロードしたファイルはリポジトリに含めない
 /uploads/
 /public/uploads/
+
+/_project-files/
