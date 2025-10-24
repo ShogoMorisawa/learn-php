@@ -33,6 +33,7 @@ class Router
             ],
             'POST' => [
                 '/register' => [RegisterController::class, 'register', true],
+                '/login' => [LoginController::class, 'login', true],
             ],
         ];
     }
