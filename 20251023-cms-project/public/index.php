@@ -2,6 +2,8 @@
 // まず最初にComposerのオートローダーを読み込む（超重要）
 require_once __DIR__ . '/../vendor/autoload.php';
 
+session_start();
+
 use Shogomorisawa\Project\Router;
 
 // ブラウザがリクエストしたURLとHTTPメソッドを取得

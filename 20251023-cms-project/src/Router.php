@@ -22,14 +22,14 @@ class Router
     {
         $this->routes = [
             'GET' => [
-                '/' => [HomeController::class, 'index'],
-                '/about' => [AboutController::class, 'show'],
-                '/admin' => [AdminController::class, 'index'],
-                '/admin/create' => [AdminController::class, 'create'],
-                '/admin/edit' => [AdminController::class, 'edit'],
-                '/contact' => [ContactController::class, 'show'],
-                '/login' => [LoginController::class, 'show'],
-                '/register' => [RegisterController::class, 'show'],
+                '/' => [HomeController::class, 'index', false],
+                '/about' => [AboutController::class, 'show', false],
+                '/admin' => [AdminController::class, 'index', true],
+                '/admin/create' => [AdminController::class, 'create', true],
+                '/admin/edit' => [AdminController::class, 'edit', true],
+                '/contact' => [ContactController::class, 'show', false],
+                '/login' => [LoginController::class, 'show', true],
+                '/register' => [RegisterController::class, 'show', true],
             ],
             'POST' => [],
         ];
@@ -41,9 +41,14 @@ class Router
         $path = parse_url($requestUri, PHP_URL_PATH);
 
         if (isset($this->routes[$requestMethod][$path])) {
-            [$controllerClass, $method] = $this->routes[$requestMethod][$path];
+            [$controllerClass, $method, $needDB] = $this->routes[$requestMethod][$path];
 
-            $controller = new $controllerClass();
+            if ($needDB) {
+                global $pdo;
+                $controller = new $controllerClass($pdo);
+            } else {
+                $controller = new $controllerClass();
+            }
             return $controller->$method() ?? '';
         }
 
