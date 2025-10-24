@@ -51,35 +51,29 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Example Article Row -->
+                    <?php if (!empty($articles)): ?>
+                     <?php foreach ($articles as $article): ?>
                     <tr>
-                        <td>1</td>
-                        <td>Article Title 1</td>
-                        <td>Edwin Diaz</td>
-                        <td>January 1, 2045</td>
+                        <td><?= $article['id'] ?></td>
+                        <td><?= $article['title'] ?></td>
+                        <td>shogomorisawa</td>
+                        <td><?= $article['updated_at'] ?></td>
+                        <td><?= $article['content'] ?></td>
                         <td>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus feugiat elit vitae enim lacinia semper...
-                        </td>
-                        <td>
-                            <a href="edit-article.html?id=1" class="btn btn-sm btn-primary me-1">Edit</a>
-                            <button class="btn btn-sm btn-danger" onclick="confirmDelete(1)">Delete</button>
+                            <a href="/admin/edit?id=<?= $article[
+                                'id'
+                            ] ?>" class="btn btn-sm btn-primary me-1">Edit</a>
+                            <button class="btn btn-sm btn-danger" onclick="confirmDelete(<?= $article[
+                                'id'
+                            ] ?>)">Delete</button>
                         </td>
                     </tr>
-                    <!-- Additional Article Rows -->
+                    <?php endforeach; ?>
+                    <?php else: ?>
                     <tr>
-                        <td>2</td>
-                        <td>Article Title 2</td>
-                        <td>Jose Diaz</td>
-                        <td>February 15, 2045</td>
-                        <td>
-                            Quisque fermentum, nisl a pulvinar tincidunt, nunc purus laoreet massa, nec tempor arcu urna vel nisi...
-                        </td>
-                        <td>
-                            <a href="edit-article.html?id=2" class="btn btn-sm btn-primary me-1">Edit</a>
-                            <button class="btn btn-sm btn-danger" onclick="confirmDelete(2)">Delete</button>
-                        </td>
+                        <td colspan="5">No articles found.</td>
                     </tr>
-                    <!-- You can add more articles here -->
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
