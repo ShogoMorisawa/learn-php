@@ -2,12 +2,12 @@
 
 namespace Shogomorisawa\Project\Controllers;
 
-class HomeController
+class AdminController
 {
     public function index(): string
     {
         ob_start();
-        include __DIR__ . '/../views/home.php';
+        include __DIR__ . '/../views/admin.php';
         return ob_get_clean();
     }
 }

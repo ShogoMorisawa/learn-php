@@ -2,12 +2,12 @@
 
 namespace Shogomorisawa\Project\Controllers;
 
-class HomeController
+class ContactController
 {
-    public function index(): string
+    public function show(): string
     {
         ob_start();
-        include __DIR__ . '/../views/home.php';
+        include __DIR__ . '/../views/contact.php';
         return ob_get_clean();
     }
 }

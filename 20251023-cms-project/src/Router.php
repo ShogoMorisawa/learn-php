@@ -3,6 +3,11 @@
 namespace Shogomorisawa\Project;
 
 use Shogomorisawa\Project\Controllers\HomeController;
+use Shogomorisawa\Project\Controllers\AboutController;
+use Shogomorisawa\Project\Controllers\AdminController;
+use Shogomorisawa\Project\Controllers\ContactController;
+use Shogomorisawa\Project\Controllers\LoginController;
+use Shogomorisawa\Project\Controllers\RegisterController;
 
 class Router
 {
@@ -18,6 +23,11 @@ class Router
         $this->routes = [
             'GET' => [
                 '/' => [HomeController::class, 'index'],
+                '/about' => [AboutController::class, 'show'],
+                '/admin' => [AdminController::class, 'index'],
+                '/contact' => [ContactController::class, 'show'],
+                '/login' => [LoginController::class, 'show'],
+                '/register' => [RegisterController::class, 'show'],
             ],
             'POST' => [],
         ];
