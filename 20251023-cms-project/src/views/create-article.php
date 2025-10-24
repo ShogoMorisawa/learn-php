@@ -29,46 +29,12 @@
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="admin.html">CMS PDO System - Admin</a>
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNav"
-                aria-controls="navbarNav"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-            >
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div
-                class="collapse navbar-collapse"
-                id="navbarNav"
-            >
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="admin.html">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="create-article.html">Create Article</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">View Site</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="login.html">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php include __DIR__ . '/partials/admin-nav.php'; ?>
 
     <!-- Main Content -->
     <main class="container my-5">
         <h2>Create New Article</h2>
-        <form action="admin.html" method="post">
+        <form action="/admin/create" method="post">
             <div class="mb-3">
                 <label for="title" class="form-label">Article Title *</label>
                 <input type="text" class="form-control" id="title" placeholder="Enter article title" required>
@@ -94,7 +60,7 @@
                 <input type="url" class="form-control" id="image" placeholder="Enter image URL">
             </div>
             <button type="submit" class="btn btn-success">Publish Article</button>
-            <a href="admin.html" class="btn btn-secondary ms-2">Cancel</a>
+            <a href="/admin" class="btn btn-secondary ms-2">Cancel</a>
         </form>
     </main>
 

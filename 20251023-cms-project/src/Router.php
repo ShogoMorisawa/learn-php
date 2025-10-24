@@ -25,6 +25,8 @@ class Router
                 '/' => [HomeController::class, 'index'],
                 '/about' => [AboutController::class, 'show'],
                 '/admin' => [AdminController::class, 'index'],
+                '/admin/create' => [AdminController::class, 'create'],
+                '/admin/edit' => [AdminController::class, 'edit'],
                 '/contact' => [ContactController::class, 'show'],
                 '/login' => [LoginController::class, 'show'],
                 '/register' => [RegisterController::class, 'show'],

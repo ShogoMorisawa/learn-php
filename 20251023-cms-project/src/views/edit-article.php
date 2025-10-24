@@ -29,49 +29,12 @@
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="admin.html">CMS PDO System - Admin</a>
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNav"
-                aria-controls="navbarNav"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-            >
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div
-                class="collapse navbar-collapse"
-                id="navbarNav"
-            >
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="admin.html">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="create-article.html">Create Article</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="edit-article.html">Edit Article</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">View Site</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="login.html">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php include __DIR__ . '/partials/admin-nav.php'; ?>
 
     <!-- Main Content -->
     <main class="container my-5">
         <h2>Edit Article</h2>
-        <form action="admin.html" method="post">
+        <form action="/admin/edit" method="post">
             <div class="mb-3">
                 <label for="title" class="form-label">Article Title *</label>
                 <input type="text" class="form-control" id="title" value="Current Article Title" required>
@@ -97,16 +60,12 @@
                 <input type="url" class="form-control" id="image" value="https://example.com/image.jpg">
             </div>
             <button type="submit" class="btn btn-primary">Update Article</button>
-            <a href="admin.html" class="btn btn-secondary ms-2">Cancel</a>
+            <a href="/admin" class="btn btn-secondary ms-2">Cancel</a>
         </form>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white py-3">
-        <div class="container text-center">
-            <p class="mb-0">&copy; 2045 CMS PDO System. All rights reserved by Edwin Diaz from EdwinDiaz.com</p>
-        </div>
-    </footer>
+    <?php include __DIR__ . '/partials/footer.php'; ?>
 
     <!-- Bootstrap JS -->
     <script
