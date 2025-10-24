@@ -20,11 +20,12 @@
             <div class="col-md-6">
                 <form action="/register" method="post">
                     <div class="mb-3">
-                        <label for="name" class="form-label">Full Name *</label>
+                        <label for="username" class="form-label">Username *</label>
                         <input
                             type="text"
                             class="form-control"
-                            id="name"
+                            id="username"
+                            name="username"
                             required
                         >
                     </div>
@@ -34,6 +35,7 @@
                             type="email"
                             class="form-control"
                             id="email"
+                            name="email"
                             required
                         >
                     </div>
@@ -43,6 +45,7 @@
                             type="password"
                             class="form-control"
                             id="password"
+                            name="password"
                             required
                         >
                     </div>
@@ -52,6 +55,7 @@
                             type="password"
                             class="form-control"
                             id="confirm-password"
+                            name="confirm_password"
                             required
                         >
                     </div>
