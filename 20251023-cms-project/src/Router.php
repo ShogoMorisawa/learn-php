@@ -23,7 +23,7 @@ class Router
     {
         $this->routes = [
             'GET' => [
-                '/' => [HomeController::class, 'index', false],
+                '/' => [HomeController::class, 'index', true],
                 '/about' => [AboutController::class, 'show', false],
                 '/admin' => [AdminController::class, 'index', true],
                 '/admin/create' => [AdminController::class, 'create', true],
