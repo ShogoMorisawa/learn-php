@@ -13,9 +13,13 @@ class ArticleController
         $this->articleModel = new Article($pdo);
     }
 
-    public function show(): string
+    public function show(int $id): string
     {
-        $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        $article = $this->articleModel->getArticleById($id);
+        if (!$article) {
+            http_response_code(404);
+            return '記事が見つかりません';
+        }
         ob_start();
         include __DIR__ . '/../views/article.php';
         return ob_get_clean();

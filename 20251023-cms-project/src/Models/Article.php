@@ -17,9 +17,10 @@ class Article
 
     public function getArticleById(int $id): ?array
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM articles WHERE id = ? LIMIT 1');
+        $stmt = $this->pdo->prepare(
+            'SELECT articles.*, users.username as author_name FROM articles LEFT JOIN users ON articles.user_id = users.id WHERE articles.id = ? LIMIT 1',
+        );
         $stmt->execute([$id]);
-        $article = $stmt->fetch();
-        return $article ? $article : null;
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }

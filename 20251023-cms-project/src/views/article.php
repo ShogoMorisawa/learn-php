@@ -16,15 +16,17 @@
     <!-- Article Header -->
     <header class="bg-dark text-white py-5">
         <div class="container">
-            <h1 class="display-4">Article Title</h1>
+            <h1 class="display-4"><?= $article['title'] ?></h1>
             <p class="lead">
-                A brief subtitle or summary of the article.
+                <?= $article['content'] ?>
             </p>
             <p>
                 <small>
-                    By <a href="#" class="text-white text-decoration-underline">Author Name</a> <!-- Add Author Name Here -->
+                    By <a href="#" class="text-white text-decoration-underline"><?= $article[
+                        'author_name'
+                    ] ?></a>
                     |
-                    <span>Published on January 1, 2045</span> <!-- Date Published -->
+                    <span><?= $article['updated_at'] ?></span>
                 </small>
             </p>
         </div>
