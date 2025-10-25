@@ -19,17 +19,17 @@ class User
         return $stmt->rowCount() > 0;
     }
 
-    public function login(string $email, string $password): bool
+    public function login(string $email, string $password): array|null
     {
         $stmt = $this->pdo->prepare('SELECT * FROM users WHERE email = ? LIMIT 1');
         $stmt->execute([$email]);
         $user = $stmt->fetch();
         if (!$user) {
-            return false;
+            return null;
         }
         if (!password_verify($password, $user['password'])) {
-            return false;
+            return null;
         }
-        return true;
+        return $user;
     }
 }

@@ -26,7 +26,7 @@ class Router
                 '/' => [HomeController::class, 'index', true],
                 '/about' => [AboutController::class, 'show', false],
                 '/admin' => [AdminController::class, 'index', true],
-                '/admin/create' => [AdminController::class, 'create', true],
+                '/admin/create' => [AdminController::class, 'showCreateForm', true],
                 '/admin/edit' => [AdminController::class, 'edit', true],
                 '/contact' => [ContactController::class, 'show', false],
                 '/login' => [LoginController::class, 'show', true],
@@ -36,6 +36,7 @@ class Router
             'POST' => [
                 '/register' => [RegisterController::class, 'register', true],
                 '/login' => [LoginController::class, 'login', true],
+                '/admin/create' => [AdminController::class, 'createArticle', true],
             ],
         ];
     }

@@ -41,6 +41,7 @@ class LoginController
         if ($result) {
             session_regenerate_id(true);
             $_SESSION['is_logged_in'] = true;
+            $_SESSION['user_id'] = $result['id'];
             $_SESSION['flash']['status'] = 'ログインに成功しました。';
             header('Location: /admin');
         } else {
