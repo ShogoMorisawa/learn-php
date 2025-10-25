@@ -8,6 +8,7 @@ use Shogomorisawa\Project\Controllers\AdminController;
 use Shogomorisawa\Project\Controllers\ContactController;
 use Shogomorisawa\Project\Controllers\LoginController;
 use Shogomorisawa\Project\Controllers\RegisterController;
+use Shogomorisawa\Project\Controllers\ArticleController;
 
 class Router
 {
@@ -30,6 +31,7 @@ class Router
                 '/contact' => [ContactController::class, 'show', false],
                 '/login' => [LoginController::class, 'show', true],
                 '/register' => [RegisterController::class, 'show', true],
+                '/article/{id}' => [ArticleController::class, 'show', true],
             ],
             'POST' => [
                 '/register' => [RegisterController::class, 'register', true],
@@ -43,16 +45,30 @@ class Router
         // クエリパラメータを除去
         $path = parse_url($requestUri, PHP_URL_PATH);
 
-        if (isset($this->routes[$requestMethod][$path])) {
-            [$controllerClass, $method, $needDB] = $this->routes[$requestMethod][$path];
+        // ルートを取得
+        $routes = $this->routes[$requestMethod];
 
-            if ($needDB) {
-                global $pdo;
-                $controller = new $controllerClass($pdo);
-            } else {
-                $controller = new $controllerClass();
+        foreach ($routes as $route => $handler) {
+            // ルート定義（例: /article/{id}）を正規表現（例: #^/article/(\d+)$#）に変換
+            // (\d+) は「1桁以上の数字」にマッチするという意味
+            $regex = '#^' . str_replace('{id}', '(\d+)', $route) . '$#';
+
+            if (preg_match($regex, $path, $matches)) {
+                [$controllerClass, $method, $needDB] = $handler;
+                if ($needDB) {
+                    global $pdo;
+                    $controller = new $controllerClass($pdo);
+                } else {
+                    $controller = new $controllerClass();
+                }
+
+                $params = $matches[1] ?? null;
+
+                if ($params) {
+                    return $controller->$method((int) $params) ?? '';
+                }
+                return $controller->$method() ?? '';
             }
-            return $controller->$method() ?? '';
         }
 
         http_response_code(404);
