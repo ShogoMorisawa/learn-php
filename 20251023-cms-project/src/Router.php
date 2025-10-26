@@ -7,6 +7,7 @@ use Shogomorisawa\Project\Controllers\AboutController;
 use Shogomorisawa\Project\Controllers\AdminController;
 use Shogomorisawa\Project\Controllers\ContactController;
 use Shogomorisawa\Project\Controllers\LoginController;
+use Shogomorisawa\Project\Controllers\LogoutController;
 use Shogomorisawa\Project\Controllers\RegisterController;
 use Shogomorisawa\Project\Controllers\ArticleController;
 
@@ -30,6 +31,7 @@ class Router
                 '/admin/edit/{id}' => [AdminController::class, 'showEditForm', true],
                 '/contact' => [ContactController::class, 'show', false],
                 '/login' => [LoginController::class, 'show', true],
+                '/logout' => [LogoutController::class, 'logout', false],
                 '/register' => [RegisterController::class, 'show', true],
                 '/article/{id}' => [ArticleController::class, 'show', true],
             ],

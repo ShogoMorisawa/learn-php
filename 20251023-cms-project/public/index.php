@@ -1,6 +1,8 @@
 <?php
 // まず最初にComposerのオートローダーを読み込む（超重要）
 require_once __DIR__ . '/../vendor/autoload.php';
+// ヘルパー関数を読み込む
+require_once __DIR__ . '/../src/helpers.php';
 
 session_start();
 

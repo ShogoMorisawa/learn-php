@@ -40,7 +40,7 @@ class AdminController
         $title = trim($_POST['title'] ?? '');
         $content = trim($_POST['content'] ?? '');
         $image = trim($_POST['image'] ?? '');
-        $userId = $_SESSION['user_id'];
+        $userId = currentUserId();
         $result = $this->articleModel->create($title, $content, $image, $userId);
         if ($result === true) {
             $_SESSION['flash']['status'] = '記事が作成されました。';
@@ -110,12 +110,12 @@ class AdminController
 
     public function checkAuth(): void
     {
-        if (!isset($_SESSION['is_logged_in']) || $_SESSION['is_logged_in'] !== true) {
+        if (!isLoggedIn()) {
             $_SESSION['flash']['errors'] = ['ログインが必要です。'];
             header('location: /login');
             exit();
         }
-        if (!isset($_SESSION['user_id'])) {
+        if (!currentUserId()) {
             $_SESSION['flash']['errors'] = ['ユーザーIDが見つかりません。'];
             header('location: /login');
             exit();
