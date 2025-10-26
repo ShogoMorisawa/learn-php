@@ -53,12 +53,40 @@ class AdminController
         }
     }
 
-    public function edit(): string
+    public function showEditForm(int $id): string
     {
         $this->checkAuth();
         ob_start();
+        $article = $this->articleModel->getArticleById($id);
         include __DIR__ . '/../views/edit-article.php';
         return ob_get_clean();
+    }
+
+    public function editArticle(int $id): void
+    {
+        $this->checkAuth();
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: /admin/edit/' . $id);
+            exit();
+        }
+        $title = trim($_POST['title'] ?? '');
+        $content = trim($_POST['content'] ?? '');
+        $image = trim($_POST['image'] ?? '');
+        if (!$title || !$content) {
+            $_SESSION['flash']['errors'] = ['タイトルと内容は必須です。'];
+            header('Location: /admin/edit/' . $id);
+            exit();
+        }
+        $result = $this->articleModel->edit($title, $content, $image, $id);
+        if ($result === true) {
+            $_SESSION['flash']['status'] = '記事の更新に成功しました。';
+            header('Location: /admin');
+            exit();
+        } else {
+            $_SESSION['flash']['errors'] = ['記事の更新に失敗しました。'];
+            header('Location: /admin/edit/' . $id);
+            exit();
+        }
     }
 
     public function checkAuth(): void

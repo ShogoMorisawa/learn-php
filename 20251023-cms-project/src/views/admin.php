@@ -60,7 +60,7 @@
                         <td><?= $article['updated_at'] ?></td>
                         <td><?= $article['content'] ?></td>
                         <td>
-                            <a href="/admin/edit?id=<?= $article[
+                            <a href="/admin/edit/<?= $article[
                                 'id'
                             ] ?>" class="btn btn-sm btn-primary me-1">Edit</a>
                             <button class="btn btn-sm btn-danger" onclick="confirmDelete(<?= $article[

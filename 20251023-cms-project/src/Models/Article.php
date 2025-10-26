@@ -22,6 +22,19 @@ class Article
         }
     }
 
+    public function edit(string $title, string $content, string $image = '', int $articleId): bool
+    {
+        try {
+            $stmt = $this->pdo->prepare(
+                'UPDATE articles SET title = ?, content = ?, image = ? WHERE id = ?',
+            );
+            $stmt->execute([$title, $content, $image, $articleId]);
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
     public function getAllArticles(): array
     {
         $stmt = $this->pdo->prepare(

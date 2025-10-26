@@ -24,9 +24,6 @@
                         <a class="nav-link" href="/admin/create">Create Article</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/edit">Edit Article</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="/">View Site</a>
                     </li>
                     <li class="nav-item">

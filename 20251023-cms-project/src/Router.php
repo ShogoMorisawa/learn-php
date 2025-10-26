@@ -27,7 +27,7 @@ class Router
                 '/about' => [AboutController::class, 'show', false],
                 '/admin' => [AdminController::class, 'index', true],
                 '/admin/create' => [AdminController::class, 'showCreateForm', true],
-                '/admin/edit' => [AdminController::class, 'edit', true],
+                '/admin/edit/{id}' => [AdminController::class, 'showEditForm', true],
                 '/contact' => [ContactController::class, 'show', false],
                 '/login' => [LoginController::class, 'show', true],
                 '/register' => [RegisterController::class, 'show', true],
@@ -37,6 +37,7 @@ class Router
                 '/register' => [RegisterController::class, 'register', true],
                 '/login' => [LoginController::class, 'login', true],
                 '/admin/create' => [AdminController::class, 'createArticle', true],
+                '/admin/edit/{id}' => [AdminController::class, 'editArticle', true],
             ],
         ];
     }
