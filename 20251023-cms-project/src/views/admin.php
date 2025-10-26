@@ -63,9 +63,11 @@
                             <a href="/admin/edit/<?= $article[
                                 'id'
                             ] ?>" class="btn btn-sm btn-primary me-1">Edit</a>
-                            <button class="btn btn-sm btn-danger" onclick="confirmDelete(<?= $article[
+                            <form method="POST" style="display:inline-block;" action="/admin/delete/<?= $article[
                                 'id'
-                            ] ?>)">Delete</button>
+                            ] ?>">
+                                <button class="btn btn-sm btn-danger me-1" type="submit" name="delete_article" onclick="return confirm('Are you sure you want to delete this article?')">Delete</button>
+                            </form>
                         </td>
                     </tr>
                     <?php endforeach; ?>

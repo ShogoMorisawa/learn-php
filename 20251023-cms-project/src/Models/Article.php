@@ -35,6 +35,17 @@ class Article
         }
     }
 
+    public function delete(int $articleId): bool
+    {
+        try {
+            $stmt = $this->pdo->prepare('DELETE FROM articles WHERE id = ?');
+            $stmt->execute([$articleId]);
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
     public function getAllArticles(): array
     {
         $stmt = $this->pdo->prepare(

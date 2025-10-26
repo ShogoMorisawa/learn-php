@@ -66,7 +66,7 @@ class AdminController
     {
         $this->checkAuth();
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: /admin/edit/' . $id);
+            header('Location: /admin');
             exit();
         }
         $title = trim($_POST['title'] ?? '');
@@ -85,6 +85,25 @@ class AdminController
         } else {
             $_SESSION['flash']['errors'] = ['記事の更新に失敗しました。'];
             header('Location: /admin/edit/' . $id);
+            exit();
+        }
+    }
+
+    public function deleteArticle(int $id): void
+    {
+        $this->checkAuth();
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: /admin');
+            exit();
+        }
+        $result = $this->articleModel->delete($id);
+        if ($result === true) {
+            $_SESSION['flash']['status'] = '記事が削除されました。';
+            header('Location: /admin');
+            exit();
+        } else {
+            $_SESSION['flash']['errors'] = ['記事の削除に失敗しました。'];
+            header('Location: /admin');
             exit();
         }
     }

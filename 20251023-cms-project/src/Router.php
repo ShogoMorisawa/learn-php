@@ -38,6 +38,7 @@ class Router
                 '/login' => [LoginController::class, 'login', true],
                 '/admin/create' => [AdminController::class, 'createArticle', true],
                 '/admin/edit/{id}' => [AdminController::class, 'editArticle', true],
+                '/admin/delete/{id}' => [AdminController::class, 'deleteArticle', true],
             ],
         ];
     }
