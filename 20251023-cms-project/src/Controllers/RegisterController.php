@@ -14,9 +14,10 @@ class RegisterController
     }
 
     public function show(): string
-    {   
+    {
         $isAdminPage = false;
         $flash = getFlashMessage();
+        $oldInput = getOldInput();
 
         ob_start();
         include __DIR__ . '/../views/register.php';
@@ -36,7 +37,9 @@ class RegisterController
 
         if (!verifyCsrfToken($_POST['_token'] ?? '')) {
             http_response_code(419);
-            $_SESSION['flash']['errors'] = ['ページの有効期限が切れました。もう一度お試しください。'];
+            $_SESSION['flash']['errors'] = [
+                'ページの有効期限が切れました。もう一度お試しください。',
+            ];
             header('Location: /register');
             exit();
         }
@@ -47,19 +50,30 @@ class RegisterController
         $confirm_password = trim($_POST['confirm_password'] ?? '');
 
         $errors = [];
-        if ($username === '' || $email === '' || $password === '' || $confirm_password === '') {
-            $errors[] = '未入力の項目があります。';
+        if (empty($username)) {
+            $errors[] = 'ユーザー名は必須です。';
+        }
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = '有効なメールアドレスを入力してください。';
+        }
+        if (empty($password) || strlen($password) < 3) {
+            $errors[] = 'パスワードは3文字以上で入力してください。';
         }
         if ($password !== $confirm_password) {
             $errors[] = 'パスワードが一致しません。';
         }
+
         if ($errors) {
             $_SESSION['flash']['errors'] = $errors;
+            rememberInput(['username' => $username, 'email' => $email]);
+            header('Location: /register');
+            exit();
         }
 
         $result = $this->userModel->register($username, $email, $password);
         if ($result) {
             $_SESSION['flash']['status'] = '登録が完了しました。ログインしてください。';
+            clearOldInput();
             header('Location: /login');
         } else {
             $_SESSION['flash']['errors'] = ['登録に失敗しました。再度お試しください。'];

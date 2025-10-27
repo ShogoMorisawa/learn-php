@@ -36,6 +36,7 @@ class AdminController
 
         $isAdminPage = true;
         $flash = getFlashMessage();
+        $oldInput = getOldInput();
 
         ob_start();
         include __DIR__ . '/../views/create-article.php';
@@ -55,7 +56,9 @@ class AdminController
         }
         if (!verifyCsrfToken($_POST['_token'] ?? '')) {
             http_response_code(419);
-            $_SESSION['flash']['errors'] = ['ページの有効期限が切れました。もう一度お試しください。'];
+            $_SESSION['flash']['errors'] = [
+                'ページの有効期限が切れました。もう一度お試しください。',
+            ];
             header('Location: /admin/create');
             exit();
         }
@@ -66,10 +69,12 @@ class AdminController
         $result = $this->articleModel->create($title, $content, $image, $userId);
         if ($result === true) {
             $_SESSION['flash']['status'] = '記事が作成されました。';
+            clearOldInput();
             header('Location: /admin');
             exit();
         } else {
             $_SESSION['flash']['errors'] = ['記事の作成に失敗しました。'];
+            rememberInput(['title' => $title, 'content' => $content, 'image' => $image]);
             header('Location: /admin/create');
             exit();
         }
@@ -78,10 +83,11 @@ class AdminController
     public function showEditForm(int $id): string
     {
         $this->checkAuth();
-        
+
         $article = $this->articleModel->getArticleById($id);
         $isAdminPage = true;
         $flash = getFlashMessage();
+        $oldInput = getOldInput();
 
         ob_start();
         include __DIR__ . '/../views/edit-article.php';
@@ -101,25 +107,32 @@ class AdminController
         }
         if (!verifyCsrfToken($_POST['_token'] ?? '')) {
             http_response_code(419);
-            $_SESSION['flash']['errors'] = ['ページの有効期限が切れました。もう一度お試しください。'];
+            $_SESSION['flash']['errors'] = [
+                'ページの有効期限が切れました。もう一度お試しください。',
+            ];
             header('Location: /admin/edit/' . $id);
             exit();
         }
         $title = trim($_POST['title'] ?? '');
         $content = trim($_POST['content'] ?? '');
         $image = trim($_POST['image'] ?? '');
+
         if (!$title || !$content) {
             $_SESSION['flash']['errors'] = ['タイトルと内容は必須です。'];
+            rememberInput(['title' => $title, 'content' => $content, 'image' => $image]);
             header('Location: /admin/edit/' . $id);
             exit();
         }
+
         $result = $this->articleModel->edit($title, $content, $image, $id);
         if ($result === true) {
             $_SESSION['flash']['status'] = '記事の更新に成功しました。';
+            clearOldInput();
             header('Location: /admin');
             exit();
         } else {
             $_SESSION['flash']['errors'] = ['記事の更新に失敗しました。'];
+            rememberInput(['title' => $title, 'content' => $content, 'image' => $image]);
             header('Location: /admin/edit/' . $id);
             exit();
         }
@@ -134,7 +147,9 @@ class AdminController
         }
         if (!verifyCsrfToken($_POST['_token'] ?? '')) {
             http_response_code(419);
-            $_SESSION['flash']['errors'] = ['ページの有効期限が切れました。もう一度お試しください。'];
+            $_SESSION['flash']['errors'] = [
+                'ページの有効期限が切れました。もう一度お試しください。',
+            ];
             header('Location: /admin');
             exit();
         }

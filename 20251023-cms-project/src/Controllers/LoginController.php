@@ -17,6 +17,7 @@ class LoginController
     {
         $isAdminPage = false;
         $flash = getFlashMessage();
+        $oldInput = getOldInput();
 
         ob_start();
         include __DIR__ . '/../views/login.php';
@@ -50,8 +51,12 @@ class LoginController
         if ($email === '' || $password === '') {
             $errors[] = '未入力の項目があります。';
         }
+
         if ($errors) {
             $_SESSION['flash']['errors'] = $errors;
+            rememberInput(['email' => $email]);
+            header('Location: /login');
+            exit();
         }
 
         $result = $this->userModel->login($email, $password);
@@ -60,9 +65,11 @@ class LoginController
             $_SESSION['is_logged_in'] = true;
             $_SESSION['user_id'] = $result['id'];
             $_SESSION['flash']['status'] = 'ログインに成功しました。';
+            clearOldInput();
             header('Location: /admin');
         } else {
             $_SESSION['flash']['errors'] = ['ログインに失敗しました。再度お試しください。'];
+            rememberInput(['email' => $email]);
             header('Location: /login');
         }
         exit();

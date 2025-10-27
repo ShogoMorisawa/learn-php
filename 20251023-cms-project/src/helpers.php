@@ -37,3 +37,20 @@ function csrfInput(): string
 {
     return '<input type="hidden" name="_token" value="' . generateCsrfToken() . '">';
 }
+
+function rememberInput(array $data): void
+{
+    $_SESSION['old_input'] = $data;
+}
+
+function getOldInput(): array
+{
+    return $_SESSION['old_input'] ?? [];
+}
+
+function clearOldInput(): void
+{
+    if (isset($_SESSION['old_input'])) {
+        unset($_SESSION['old_input']);
+    }
+}

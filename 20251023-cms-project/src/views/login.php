@@ -4,13 +4,15 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <form action="/login" method="post">
-                    <?= csrfInput(); ?>
+                    <?= csrfInput() ?>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email address *</label>
                         <input
                             type="email"
                             class="form-control"
                             id="email"
+                            name="email"
+                            value="<?= $oldInput['email'] ?? '' ?>"
                             required
                         >
                     </div>
@@ -20,6 +22,7 @@
                             type="password"
                             class="form-control"
                             id="password"
+                            name="password"
                             required
                         >
                     </div>

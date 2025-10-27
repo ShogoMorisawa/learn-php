@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <form action="/register" method="post">
-                    <?= csrfInput(); ?>
+                    <?= csrfInput() ?>
                     <div class="mb-3">
                         <label for="username" class="form-label">Username *</label>
                         <input
@@ -13,6 +13,7 @@
                             class="form-control"
                             id="username"
                             name="username"
+                            value="<?= $oldInput['username'] ?? '' ?>"
                             required
                         >
                     </div>
@@ -23,6 +24,7 @@
                             class="form-control"
                             id="email"
                             name="email"
+                            value="<?= $oldInput['email'] ?? '' ?>"
                             required
                         >
                     </div>
