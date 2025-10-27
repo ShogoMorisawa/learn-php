@@ -28,6 +28,7 @@
                             <form method="POST" style="display:inline-block;" action="/admin/delete/<?= $article[
                                 'id'
                             ] ?>">
+                                <?= csrfInput() ?>
                                 <button class="btn btn-sm btn-danger me-1" type="submit" name="delete_article" onclick="return confirm('Are you sure you want to delete this article?')">Delete</button>
                             </form>
                         </td>

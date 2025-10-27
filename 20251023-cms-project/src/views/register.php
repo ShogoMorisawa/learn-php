@@ -5,6 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <form action="/register" method="post">
+                    <?= csrfInput(); ?>
                     <div class="mb-3">
                         <label for="username" class="form-label">Username *</label>
                         <input

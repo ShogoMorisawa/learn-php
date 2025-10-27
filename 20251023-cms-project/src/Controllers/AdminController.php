@@ -53,6 +53,12 @@ class AdminController
             header('Location: /admin/create');
             exit();
         }
+        if (!verifyCsrfToken($_POST['_token'] ?? '')) {
+            http_response_code(419);
+            $_SESSION['flash']['errors'] = ['ページの有効期限が切れました。もう一度お試しください。'];
+            header('Location: /admin/create');
+            exit();
+        }
         $title = trim($_POST['title'] ?? '');
         $content = trim($_POST['content'] ?? '');
         $image = trim($_POST['image'] ?? '');
@@ -93,6 +99,12 @@ class AdminController
             header('Location: /admin');
             exit();
         }
+        if (!verifyCsrfToken($_POST['_token'] ?? '')) {
+            http_response_code(419);
+            $_SESSION['flash']['errors'] = ['ページの有効期限が切れました。もう一度お試しください。'];
+            header('Location: /admin/edit/' . $id);
+            exit();
+        }
         $title = trim($_POST['title'] ?? '');
         $content = trim($_POST['content'] ?? '');
         $image = trim($_POST['image'] ?? '');
@@ -117,6 +129,12 @@ class AdminController
     {
         $this->checkAuth();
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: /admin');
+            exit();
+        }
+        if (!verifyCsrfToken($_POST['_token'] ?? '')) {
+            http_response_code(419);
+            $_SESSION['flash']['errors'] = ['ページの有効期限が切れました。もう一度お試しください。'];
             header('Location: /admin');
             exit();
         }

@@ -4,6 +4,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <form action="/login" method="post">
+                    <?= csrfInput(); ?>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email address *</label>
                         <input

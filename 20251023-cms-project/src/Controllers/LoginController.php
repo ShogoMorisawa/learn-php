@@ -33,6 +33,16 @@ class LoginController
             header('Location: /login');
             exit();
         }
+
+        if (!verifyCsrfToken($_POST['_token'] ?? '')) {
+            http_response_code(419);
+            $_SESSION['flash']['errors'] = [
+                'ページの有効期限が切れました。もう一度お試しください。',
+            ];
+            header('Location: /login');
+            exit();
+        }
+
         $email = trim($_POST['email'] ?? '');
         $password = trim($_POST['password'] ?? '');
 
