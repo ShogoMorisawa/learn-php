@@ -20,8 +20,16 @@ class ArticleController
             http_response_code(404);
             return '記事が見つかりません';
         }
+
+        $isAdminPage = false;
+        $flash = getFlashMessage();
+
         ob_start();
         include __DIR__ . '/../views/article.php';
+        $content = ob_get_clean();
+
+        ob_start();
+        include __DIR__ . '/../views/layouts/app.php';
         return ob_get_clean();
     }
 }

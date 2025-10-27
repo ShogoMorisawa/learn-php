@@ -1,0 +1,16 @@
+/* Layout styles for full-height layout */
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main content will expand to fill the available space */
+main {
+  flex: 1;
+}

@@ -1,17 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Article Title - CMS PDO System</title>
-    <!-- Bootstrap CSS -->
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
-</head>
-<body>
-     <!-- Navigation Bar -->
-    <?php include __DIR__ . '/partials/nav.php'; ?>
 
     <!-- Article Header -->
     <header class="bg-dark text-white py-5">
@@ -89,13 +75,3 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <?php include __DIR__ . '/partials/footer.php'; ?>
-
-    <!-- Bootstrap JS -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-
-    ></script>
-</body>
-</html>

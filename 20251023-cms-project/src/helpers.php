@@ -9,3 +9,9 @@ function currentUserId(): ?int
 {
     return $_SESSION['user_id'] ?? null;
 }
+
+function getFlashMessage(): array {
+    $messages = $_SESSION['flash'] ?? [];
+    unset($_SESSION['flash']);
+    return $messages;
+}

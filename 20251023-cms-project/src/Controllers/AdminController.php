@@ -16,17 +16,33 @@ class AdminController
     public function index(): string
     {
         $this->checkAuth();
-        ob_start();
+
         $articles = $this->articleModel->getAllArticles();
+        $isAdminPage = true;
+        $flash = getFlashMessage();
+
+        ob_start();
         include __DIR__ . '/../views/admin.php';
+        $content = ob_get_clean();
+
+        ob_start();
+        include __DIR__ . '/../views/layouts/app.php';
         return ob_get_clean();
     }
 
     public function showCreateForm(): string
     {
         $this->checkAuth();
+
+        $isAdminPage = true;
+        $flash = getFlashMessage();
+
         ob_start();
         include __DIR__ . '/../views/create-article.php';
+        $content = ob_get_clean();
+
+        ob_start();
+        include __DIR__ . '/../views/layouts/app.php';
         return ob_get_clean();
     }
 
@@ -56,9 +72,17 @@ class AdminController
     public function showEditForm(int $id): string
     {
         $this->checkAuth();
-        ob_start();
+        
         $article = $this->articleModel->getArticleById($id);
+        $isAdminPage = true;
+        $flash = getFlashMessage();
+
+        ob_start();
         include __DIR__ . '/../views/edit-article.php';
+        $content = ob_get_clean();
+
+        ob_start();
+        include __DIR__ . '/../views/layouts/app.php';
         return ob_get_clean();
     }
 
