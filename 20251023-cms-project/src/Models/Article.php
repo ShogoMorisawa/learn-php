@@ -91,4 +91,20 @@ class Article
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function getArticleByIdForUser(int $articleId, int $userId): ?array
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM articles WHERE id = ? AND user_id = ? LIMIT 1');
+        $stmt->execute([$articleId, $userId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getArticlesByUser(int $userId): array
+    {
+        $stmt = $this->pdo->prepare(
+            'SELECT articles.*, users.username as author_name FROM articles LEFT JOIN users ON articles.user_id = users.id WHERE articles.user_id = ? ORDER BY articles.created_at DESC',
+        );
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

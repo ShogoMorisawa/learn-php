@@ -17,7 +17,7 @@ class AdminController
     {
         $this->checkAuth();
 
-        $articles = $this->articleModel->getAllArticles();
+        $articles = $this->articleModel->getArticlesByUser(currentUserId());
         $isAdminPage = true;
         $flash = getFlashMessage();
 
@@ -90,7 +90,13 @@ class AdminController
     {
         $this->checkAuth();
 
-        $article = $this->articleModel->getArticleById($id);
+        $userId = currentUserId();
+        $article = $this->articleModel->getArticleByIdForUser($id, $userId);
+        if (!$article) {
+            $_SESSION['flash']['errors'] = ['記事が見つかりません。'];
+            header('Location: /admin');
+            exit();
+        }
         $isAdminPage = true;
         $flash = getFlashMessage();
         $oldInput = getOldInput();
@@ -120,7 +126,8 @@ class AdminController
             exit();
         }
 
-        $article = $this->articleModel->getArticleById($id);
+        $userId = currentUserId();
+        $article = $this->articleModel->getArticleByIdForUser($id, $userId);
         if (!$article) {
             $_SESSION['flash']['errors'] = ['記事が見つかりません。'];
             header('Location: /admin');
@@ -187,7 +194,8 @@ class AdminController
             exit();
         }
 
-        $article = $this->articleModel->getArticleById($id);
+        $userId = currentUserId();
+        $article = $this->articleModel->getArticleByIdForUser($id, $userId);
         if (!$article) {
             $_SESSION['flash']['errors'] = ['記事が見つかりません。'];
             header('Location: /admin');
