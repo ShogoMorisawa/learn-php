@@ -46,6 +46,34 @@ class Article
         }
     }
 
+    public function uploadImage(array $image): ?string
+    {
+        if ($image['error'] === UPLOAD_ERR_NO_FILE) {
+            return null;
+        }
+        if ($image['error'] !== UPLOAD_ERR_OK) {
+            return null;
+        }
+        if ($image['size'] > 5 * 1024 * 1024) {
+            return null;
+        }
+
+        $allowed = ['jpg', 'jpeg', 'png', 'gif'];
+        $extension = strtolower(pathinfo($image['name'], PATHINFO_EXTENSION));
+        if (!in_array($extension, $allowed, true)) {
+            return null;
+        }
+
+        $filename = bin2hex(random_bytes(16)) . '.' . $extension;
+        $targetPath = __DIR__ . '/../../public/uploads/' . $filename;
+
+        if (!move_uploaded_file($image['tmp_name'], $targetPath)) {
+            return null;
+        }
+
+        return '/uploads/' . $filename;
+    }
+
     public function getAllArticles(): array
     {
         $stmt = $this->pdo->prepare(

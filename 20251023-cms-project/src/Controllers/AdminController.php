@@ -64,9 +64,15 @@ class AdminController
         }
         $title = trim($_POST['title'] ?? '');
         $content = trim($_POST['content'] ?? '');
-        $image = trim($_POST['image'] ?? '');
+        $imagePath = $this->articleModel->uploadImage($_FILES['image']);
+        if ($imagePath === null && $_FILES['image']['error'] !== UPLOAD_ERR_NO_FILE) {
+            $_SESSION['flash']['errors'] = ['画像のアップロードに失敗しました。'];
+            rememberInput(['title' => $title, 'content' => $content]);
+            header('Location: /admin/create');
+            exit();
+        }
         $userId = currentUserId();
-        $result = $this->articleModel->create($title, $content, $image, $userId);
+        $result = $this->articleModel->create($title, $content, $imagePath ?? '', $userId);
         if ($result === true) {
             $_SESSION['flash']['status'] = '記事が作成されました。';
             clearOldInput();
@@ -74,7 +80,7 @@ class AdminController
             exit();
         } else {
             $_SESSION['flash']['errors'] = ['記事の作成に失敗しました。'];
-            rememberInput(['title' => $title, 'content' => $content, 'image' => $image]);
+            rememberInput(['title' => $title, 'content' => $content]);
             header('Location: /admin/create');
             exit();
         }
@@ -113,26 +119,53 @@ class AdminController
             header('Location: /admin/edit/' . $id);
             exit();
         }
-        $title = trim($_POST['title'] ?? '');
-        $content = trim($_POST['content'] ?? '');
-        $image = trim($_POST['image'] ?? '');
 
-        if (!$title || !$content) {
-            $_SESSION['flash']['errors'] = ['タイトルと内容は必須です。'];
-            rememberInput(['title' => $title, 'content' => $content, 'image' => $image]);
+        $article = $this->articleModel->getArticleById($id);
+        if (!$article) {
+            $_SESSION['flash']['errors'] = ['記事が見つかりません。'];
+            header('Location: /admin');
+            exit();
+        }
+
+        $newTitle = trim($_POST['title'] ?? '');
+        $newContent = trim($_POST['content'] ?? '');
+        $oldImagePath = $article['image'] ?? null;
+        $newImagePath = $this->articleModel->uploadImage($_FILES['image']) ?? null;
+        $imagePathToSave = $newImagePath ?? $oldImagePath;
+
+        if ($newImagePath === null && $_FILES['image']['error'] !== UPLOAD_ERR_NO_FILE) {
+            $_SESSION['flash']['errors'] = ['画像の更新に失敗しました。'];
+            rememberInput(['title' => $newTitle, 'content' => $newContent]);
             header('Location: /admin/edit/' . $id);
             exit();
         }
 
-        $result = $this->articleModel->edit($title, $content, $image, $id);
+        if (!$newTitle || !$newContent) {
+            $_SESSION['flash']['errors'] = ['タイトルと内容は必須です。'];
+            rememberInput(['title' => $newTitle, 'content' => $newContent]);
+            header('Location: /admin/edit/' . $id);
+            exit();
+        }
+
+        $result = $this->articleModel->edit($newTitle, $newContent, $imagePathToSave, $id);
         if ($result === true) {
             $_SESSION['flash']['status'] = '記事の更新に成功しました。';
             clearOldInput();
+
+            if ($newImagePath !== null) {
+                if (
+                    !empty($oldImagePath) &&
+                    file_exists(__DIR__ . '/../../public/' . $oldImagePath)
+                ) {
+                    unlink(__DIR__ . '/../../public/' . $oldImagePath);
+                }
+            }
+
             header('Location: /admin');
             exit();
         } else {
             $_SESSION['flash']['errors'] = ['記事の更新に失敗しました。'];
-            rememberInput(['title' => $title, 'content' => $content, 'image' => $image]);
+            rememberInput(['title' => $newTitle, 'content' => $newContent]);
             header('Location: /admin/edit/' . $id);
             exit();
         }
@@ -153,9 +186,25 @@ class AdminController
             header('Location: /admin');
             exit();
         }
+
+        $article = $this->articleModel->getArticleById($id);
+        if (!$article) {
+            $_SESSION['flash']['errors'] = ['記事が見つかりません。'];
+            header('Location: /admin');
+            exit();
+        }
+
         $result = $this->articleModel->delete($id);
         if ($result === true) {
             $_SESSION['flash']['status'] = '記事が削除されました。';
+
+            if (
+                !empty($article['image']) &&
+                file_exists(__DIR__ . '/../../public/' . $article['image'])
+            ) {
+                unlink(__DIR__ . '/../../public/' . $article['image']);
+            }
+
             header('Location: /admin');
             exit();
         } else {

@@ -13,16 +13,24 @@
             <?php foreach ($articles as $article): ?>
             <div class="row mb-4">
                 <div class="col-md-4">
-                    <img
-                        src="https://via.placeholder.com/350x200"
-                        class="img-fluid"
-                        alt="Blog Post Image"
-                    >
+                    <?php if (!empty($article['image'])): ?>
+                        <img
+                            src="<?= htmlspecialchars($article['image']) ?>"
+                            alt="<?= htmlspecialchars($article['title']) ?>"
+                            class="img-fluid"
+                        >
+                    <?php else: ?>
+                        <img
+                            src="https://via.placeholder.com/350x200"
+                            class="img-fluid"
+                            alt="Blog Post Image"
+                        >
+                    <?php endif; ?>
                 </div>
                 <div class="col-md-8">
-                    <h2><?= $article['title'] ?></h2>
+                    <h2><?= htmlspecialchars($article['title']) ?></h2>
                     <p>
-                        <?= $article['content'] ?>
+                        <?= htmlspecialchars($article['content']) ?>
                     </p>
                     <a href="/article/<?= $article['id'] ?>" class="btn btn-primary">Read More</a>
                 </div>

@@ -2,7 +2,7 @@
     <!-- Main Content -->
     <main class="container my-5">
         <h2>Create New Article</h2>
-        <form action="/admin/create" method="post">
+        <form action="/admin/create" method="post" enctype="multipart/form-data">
             <?= csrfInput() ?>
             <div class="mb-3">
                 <label for="title" class="form-label">Article Title *</label>
@@ -12,15 +12,13 @@
             </div>
             <div class="mb-3">
                 <label for="content" class="form-label">Content *</label>
-                <textarea class="form-control" id="content" name="content" rows="10" placeholder="Enter article content" value="<?= $oldInput[
+                <textarea class="form-control" id="content" name="content" rows="10" placeholder="Enter article content" required><?= $oldInput[
                     'content'
-                ] ?? '' ?>" required></textarea>
+                ] ?? '' ?></textarea>
             </div>
             <div class="mb-3">
-                <label for="image" class="form-label">Featured Image URL</label>
-                <input type="url" class="form-control" id="image" name="image" placeholder="Enter image URL" value="<?= $oldInput[
-                    'image'
-                ] ?? '' ?>">
+                <label for="image" class="form-label">Featured Image</label>
+                <input type="file" class="form-control" id="image" name="image" accept="image/*">
             </div>
             <button type="submit" class="btn btn-success">Publish Article</button>
             <a href="/admin" class="btn btn-secondary ms-2">Cancel</a>

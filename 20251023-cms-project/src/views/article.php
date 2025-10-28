@@ -2,15 +2,15 @@
     <!-- Article Header -->
     <header class="bg-dark text-white py-5">
         <div class="container">
-            <h1 class="display-4"><?= $article['title'] ?></h1>
+            <h1 class="display-4"><?= htmlspecialchars($article['title']) ?></h1>
             <p class="lead">
-                <?= $article['content'] ?>
+                <?= htmlspecialchars($article['content']) ?>
             </p>
             <p>
                 <small>
-                    By <a href="#" class="text-white text-decoration-underline"><?= $article[
-                        'author_name'
-                    ] ?></a>
+                    By <a href="#" class="text-white text-decoration-underline"><?= htmlspecialchars(
+                        $article['author_name'] ?? 'Unknown',
+                    ) ?></a>
                     |
                     <span><?= $article['updated_at'] ?></span>
                 </small>
@@ -22,41 +22,19 @@
     <!-- Main Content -->
     <main class="container my-5">
         <!-- Featured Image -->
-        <div class="mb-4">
-            <img
-                src="https://via.placeholder.com/1200x600"
-                class="img-fluid w-100"
-                alt="Featured Image"
-            >
-        </div>
+        <?php if (!empty($article['image'])): ?>
+            <div class="mb-4 text-center">
+                <img
+                    src="<?= htmlspecialchars($article['image']) ?>"
+                    alt="<?= htmlspecialchars($article['title']) ?>"
+                    class="img-fluid w-100"
+                >
+            </div>
+        <?php endif; ?>
         <!-- Article Content -->
         <article>
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus feugiat elit vitae enim lacinia semper. 
-                Sed sollicitudin, nunc at elementum luctus, quam urna dignissim ipsum, ac tristique sapien arcu non ligula.
-            </p>
-            <p>
-                Quisque fermentum, nisl a pulvinar tincidunt, nunc purus laoreet massa, nec tempor arcu urna vel nisi. 
-                Suspendisse potenti. Duis ornare, risus non commodo bibendum, sapien turpis feugiat ligula, ut aliquam sapien urna eget est.
-            </p>
-            <h2>Subheading 1</h2>
-            <p>
-                Maecenas non nunc nec nisi dignissim pretium. Curabitur ac sapien a tellus finibus suscipit. Nullam ac tortor vitae tortor 
-                tempus placerat non a massa.
-            </p>
-            <h2>Subheading 2</h2>
-            <p>
-                Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Fusce id purus at risus consectetur 
-                accumsan. Nam vitae aliquam sapien.
-            </p>
-            <ul>
-                <li>Key point one</li>
-                <li>Key point two</li>
-                <li>Key point three</li>
-            </ul>
-            <p>
-                In hac habitasse platea dictumst. Vivamus euismod, justo at pulvinar pharetra, nisl lorem lacinia lorem, ac bibendum sapien 
-                lectus a nisi.
+                <?= nl2br(htmlspecialchars($article['content'])) ?>
             </p>
         </article>
 
