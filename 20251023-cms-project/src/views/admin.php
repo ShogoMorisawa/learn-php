@@ -1,6 +1,19 @@
     <main class="container my-5">
         <h2 class="mb-4">Admin Dashboard</h2>
         <div class="table-responsive">
+            <?php if ($totalPages > 1): ?>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                            <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                                <a class="page-link" href="/admin?page=<?= $i ?>">
+                                    <?= $i ?>
+                                </a>
+                            </li>
+                        <?php endfor; ?>
+                    </ul>
+                </nav>
+            <?php endif; ?>
             <form method="POST" action="/admin/delete-multiple">
                 <?= csrfInput() ?>
                 <button class="btn btn-sm btn-danger me-1" type="submit" name="delete_multiple_articles" onclick="return confirm('Are you sure you want to delete these articles?')">Delete Multiple Articles</button>

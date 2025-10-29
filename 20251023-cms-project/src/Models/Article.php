@@ -131,12 +131,19 @@ class Article
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getArticlesByUser(int $userId): array
+    public function getArticlesByUser(int $userId, int $offset, int $articlesPerPage): array
     {
         $stmt = $this->pdo->prepare(
-            'SELECT articles.*, users.username as author_name FROM articles LEFT JOIN users ON articles.user_id = users.id WHERE articles.user_id = ? ORDER BY articles.created_at DESC',
+            'SELECT articles.*, users.username as author_name FROM articles LEFT JOIN users ON articles.user_id = users.id WHERE articles.user_id = ? ORDER BY articles.created_at DESC LIMIT ? OFFSET ?',
         );
-        $stmt->execute([$userId]);
+        $stmt->execute([$userId, $articlesPerPage, $offset]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function countArticlesByUser(int $userId): int
+    {
+        $stmt = $this->pdo->prepare('SELECT COUNT(id) FROM articles WHERE user_id = ?');
+        $stmt->execute([$userId]);
+        return (int) $stmt->fetchColumn();
     }
 }

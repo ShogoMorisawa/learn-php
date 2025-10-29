@@ -16,8 +16,22 @@ class AdminController
     public function index(): string
     {
         $this->checkAuth();
+        $userId = currentUserId();
 
-        $articles = $this->articleModel->getArticlesByUser(currentUserId());
+        $page = (int) ($_GET['page'] ?? 1);
+        if ($page < 1) {
+            $page = 1;
+        }
+        $articlesPerPage = 10;
+        $totalArticles = $this->articleModel->countArticlesByUser($userId);
+        $totalPages = (int) max(1, ceil($totalArticles / $articlesPerPage));
+        if ($page > $totalPages) {
+            $page = min($page, $totalPages);
+        }
+        $offset = ($page - 1) * $articlesPerPage;
+
+        $articles = $this->articleModel->getArticlesByUser($userId, $offset, $articlesPerPage);
+
         $isAdminPage = true;
         $flash = getFlashMessage();
 
