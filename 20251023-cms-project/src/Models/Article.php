@@ -9,7 +9,7 @@ class Article
 {
     public function __construct(private PDO $pdo) {}
 
-    public function create(string $title, string $content, string $image = '', int $userId): bool
+    public function create(string $title, string $content, int $userId, string $image = ''): bool
     {
         try {
             $stmt = $this->pdo->prepare(
@@ -22,7 +22,7 @@ class Article
         }
     }
 
-    public function edit(string $title, string $content, string $image = '', int $articleId): bool
+    public function edit(string $title, string $content, int $articleId, string $image = ''): bool
     {
         try {
             $stmt = $this->pdo->prepare(
@@ -131,19 +131,42 @@ class Article
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getArticlesByUser(int $userId, int $offset, int $articlesPerPage): array
-    {
-        $stmt = $this->pdo->prepare(
-            'SELECT articles.*, users.username as author_name FROM articles LEFT JOIN users ON articles.user_id = users.id WHERE articles.user_id = ? ORDER BY articles.created_at DESC LIMIT ? OFFSET ?',
-        );
-        $stmt->execute([$userId, $articlesPerPage, $offset]);
+    public function getArticlesByUser(
+        int $userId,
+        int $offset,
+        int $articlesPerPage,
+        ?string $searchKeyword = null,
+    ): array {
+        $sql =
+            'SELECT articles.*, users.username as author_name FROM articles LEFT JOIN users ON articles.user_id = users.id WHERE articles.user_id = ?';
+        $params = [$userId];
+
+        if ($searchKeyword !== null && $searchKeyword !== '') {
+            $sql .= ' AND (articles.title LIKE ?)';
+            $params[] = '%' . $searchKeyword . '%';
+        }
+
+        $sql .= ' ORDER BY articles.created_at DESC LIMIT ? OFFSET ?';
+        $params[] = $articlesPerPage;
+        $params[] = $offset;
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function countArticlesByUser(int $userId): int
+    public function countArticlesByUser(int $userId, ?string $searchKeyword = null): int
     {
-        $stmt = $this->pdo->prepare('SELECT COUNT(id) FROM articles WHERE user_id = ?');
-        $stmt->execute([$userId]);
+        $sql = 'SELECT COUNT(id) FROM articles WHERE user_id = ?';
+        $params = [$userId];
+
+        if ($searchKeyword !== null && $searchKeyword !== '') {
+            $sql .= ' AND (title LIKE ?)';
+            $params[] = '%' . $searchKeyword . '%';
+        }
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
         return (int) $stmt->fetchColumn();
     }
 }

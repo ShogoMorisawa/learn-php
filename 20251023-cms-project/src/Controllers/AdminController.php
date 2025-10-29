@@ -23,14 +23,20 @@ class AdminController
             $page = 1;
         }
         $articlesPerPage = 10;
-        $totalArticles = $this->articleModel->countArticlesByUser($userId);
+        $searchKeyword = trim($_GET['searchQuery'] ?? '');
+        $totalArticles = $this->articleModel->countArticlesByUser($userId, $searchKeyword);
         $totalPages = (int) max(1, ceil($totalArticles / $articlesPerPage));
         if ($page > $totalPages) {
             $page = min($page, $totalPages);
         }
         $offset = ($page - 1) * $articlesPerPage;
 
-        $articles = $this->articleModel->getArticlesByUser($userId, $offset, $articlesPerPage);
+        $articles = $this->articleModel->getArticlesByUser(
+            $userId,
+            $offset,
+            $articlesPerPage,
+            $searchKeyword,
+        );
 
         $isAdminPage = true;
         $flash = getFlashMessage();
@@ -86,7 +92,7 @@ class AdminController
             exit();
         }
         $userId = currentUserId();
-        $result = $this->articleModel->create($title, $content, $imagePath ?? '', $userId);
+        $result = $this->articleModel->create($title, $content, $userId, $imagePath ?? '');
         if ($result === true) {
             $_SESSION['flash']['status'] = '記事が作成されました。';
             clearOldInput();
@@ -168,7 +174,7 @@ class AdminController
             exit();
         }
 
-        $result = $this->articleModel->edit($newTitle, $newContent, $imagePathToSave, $id);
+        $result = $this->articleModel->edit($newTitle, $newContent, $id, $imagePathToSave);
         if ($result === true) {
             $_SESSION['flash']['status'] = '記事の更新に成功しました。';
             clearOldInput();

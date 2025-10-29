@@ -1,12 +1,26 @@
     <main class="container my-5">
         <h2 class="mb-4">Admin Dashboard</h2>
         <div class="table-responsive">
+            <form class="row mb-3" method="get" action="/admin">
+                <div class="col-md-6">
+                    <input
+                        type="text"
+                        name="searchQuery"
+                        class="form-control"
+                        placeholder="タイトルで検索"
+                        value="<?= htmlspecialchars($searchKeyword ?? '') ?>"
+                    >
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">検索</button>
+                </div>
+            </form>
             <?php if ($totalPages > 1): ?>
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
                         <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                             <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                                <a class="page-link" href="/admin?page=<?= $i ?>">
+                                <a class="page-link" href="/admin?page=<?= $i ?>&searchQuery=<?= urlencode($searchKeyword) ?>">
                                     <?= $i ?>
                                 </a>
                             </li>
