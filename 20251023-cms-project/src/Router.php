@@ -41,6 +41,11 @@ class Router
                 '/admin/create' => [AdminController::class, 'createArticle', true],
                 '/admin/edit/{id}' => [AdminController::class, 'editArticle', true],
                 '/admin/delete/{id}' => [AdminController::class, 'deleteArticle', true],
+                '/admin/delete-multiple' => [
+                    AdminController::class,
+                    'deleteMultipleArticles',
+                    true,
+                ],
             ],
         ];
     }

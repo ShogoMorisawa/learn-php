@@ -1,9 +1,14 @@
     <main class="container my-5">
         <h2 class="mb-4">Admin Dashboard</h2>
         <div class="table-responsive">
+            <form method="POST" action="/admin/delete-multiple">
+                <?= csrfInput() ?>
+                <button class="btn btn-sm btn-danger me-1" type="submit" name="delete_multiple_articles" onclick="return confirm('Are you sure you want to delete these articles?')">Delete Multiple Articles</button>
+     
             <table class="table table-bordered table-hover align-middle">
                 <thead class="table-dark">
                     <tr>
+                        <th>check box</th>
                         <th>ID</th>
                         <th>Title</th>
                         <th>Author</th>
@@ -16,6 +21,9 @@
                     <?php if (!empty($articles)): ?>
                         <?php foreach ($articles as $article): ?>
                     <tr>
+                        <td><input type="checkbox" name="article_ids[]" value="<?= $article[
+                            'id'
+                        ] ?>"></td>
                         <td><?= $article['id'] ?></td>
                         <td><?= $article['title'] ?></td>
                         <td>shogomorisawa</td>
@@ -40,6 +48,7 @@
                     </tr>
                     <?php endif; ?>
                 </tbody>
-            </table>
+            </table>      
+        </form>         
         </div>
     </main>

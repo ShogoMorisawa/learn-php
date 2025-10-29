@@ -46,6 +46,38 @@ class Article
         }
     }
 
+    public function deleteMultiple(array $articleIds, int $userId): int
+    {
+        if (empty($articleIds)) {
+            return 0;
+        }
+
+        // はてなをarticleIdsの数だけ生成
+        $placeholders = implode(',', array_fill(0, count($articleIds), '?'));
+        $params = $articleIds;
+        $params[] = $userId;
+
+        $sqlSelect = "SELECT image FROM articles WHERE id IN ($placeholders) AND user_id = ?";
+        $stmtSelect = $this->pdo->prepare($sqlSelect);
+        $stmtSelect->execute($params);
+        $images = $stmtSelect->fetchAll(PDO::FETCH_COLUMN);
+
+        $sqlDelete = "DELETE FROM articles WHERE id IN ($placeholders) AND user_id = ?";
+        $stmtDelete = $this->pdo->prepare($sqlDelete);
+        $stmtDelete->execute($params);
+        $deletedCount = $stmtDelete->rowCount();
+
+        if ($deletedCount > 0 && !empty($images)) {
+            foreach ($images as $imagePath) {
+                if (!empty($imagePath) && file_exists(__DIR__ . '/../../public/' . $imagePath)) {
+                    unlink(__DIR__ . '/../../public/' . $imagePath);
+                }
+            }
+        }
+
+        return $deletedCount;
+    }
+
     public function uploadImage(array $image): ?string
     {
         if ($image['error'] === UPLOAD_ERR_NO_FILE) {

@@ -222,6 +222,37 @@ class AdminController
         }
     }
 
+    public function deleteMultipleArticles(): void
+    {
+        $this->checkAuth();
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: /admin');
+            exit();
+        }
+        if (!verifyCsrfToken($_POST['_token'] ?? '')) {
+            http_response_code(419);
+            $_SESSION['flash']['errors'] = [
+                'ページの有効期限が切れました。もう一度お試しください。',
+            ];
+            header('Location: /admin');
+            exit();
+        }
+
+        $userId = currentUserId();
+        $articleIds = $_POST['article_ids'] ?? [];
+        $result = $this->articleModel->deleteMultiple($articleIds, $userId);
+        if ($result > 0) {
+            $_SESSION['flash']['status'] = '記事が削除されました。';
+
+            header('Location: /admin');
+            exit();
+        } else {
+            $_SESSION['flash']['errors'] = ['記事の削除に失敗しました。'];
+            header('Location: /admin');
+            exit();
+        }
+    }
+
     public function checkAuth(): void
     {
         if (!isLoggedIn()) {
