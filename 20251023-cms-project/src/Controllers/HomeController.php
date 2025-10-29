@@ -14,7 +14,17 @@ class HomeController
     }
     public function index(): string
     {
-        $articles = $this->articleModel->getAllArticles();
+        $page = (int) max(1, $_GET['page'] ?? 1);
+        $articlesPerPage = 10;
+
+        $totalArticles = $this->articleModel->countAllArticles();
+        $totalPages = (int) max(1, ceil($totalArticles / $articlesPerPage));
+        if ($page > $totalPages) {
+            $page = min($page, $totalPages);
+        }
+        $offset = ($page - 1) * $articlesPerPage;
+
+        $articles = $this->articleModel->getArticlePaginated($offset, $articlesPerPage);
         $isAdminPage = false;
         $flash = getFlashMessage();
 

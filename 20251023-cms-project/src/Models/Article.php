@@ -124,6 +124,16 @@ class Article
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getArticlePaginated(int $offset, int $articlesPerPage): array
+    {
+        $sql =
+            'SELECT articles.*, users.username as author_name FROM articles LEFT JOIN users ON articles.user_id = users.id ORDER BY articles.created_at DESC LIMIT ? OFFSET ?';
+        $params = [$articlesPerPage, $offset];
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getArticleByIdForUser(int $articleId, int $userId): ?array
     {
         $stmt = $this->pdo->prepare('SELECT * FROM articles WHERE id = ? AND user_id = ? LIMIT 1');
@@ -153,6 +163,13 @@ class Article
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function countAllArticles(): int
+    {
+        $stmt = $this->pdo->prepare('SELECT COUNT(id) FROM articles');
+        $stmt->execute();
+        return (int) $stmt->fetchColumn();
     }
 
     public function countArticlesByUser(int $userId, ?string $searchKeyword = null): int

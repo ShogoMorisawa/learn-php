@@ -10,6 +10,19 @@
     <!-- Main Content -->
     <main class="container my-5">
         <div class="row">
+        <?php if ($totalPages > 1): ?>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                            <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                                <a class="page-link" href="/?page=<?= $i ?>">
+                                    <?= $i ?>
+                                </a>
+                            </li>
+                        <?php endfor; ?>
+                    </ul>
+                </nav>
+            <?php endif; ?>
             <?php foreach ($articles as $article): ?>
             <div class="row mb-4">
                 <div class="col-md-4">
