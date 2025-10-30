@@ -1,23 +1,20 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 Route::get('/', function () {
-    return 'Hello World';
+    return redirect()->route('tasks.index');
 });
 
-Route::get('/users', function (){
-    return 'Users page';
-});
+Route::get('/tasks', function () {
+    return view('index', ['tasks' => \App\Models\Task::latest()->get()]);
+})->name('tasks.index');
 
-Route::get('/shogo', function(){
-    return 'Shogo page';
-});
+Route::get('/tasks/{id}', function ($id){
+    return view('show', ['task' => \App\Models\Task::findOrFail($id)]);
+})->name('tasks.show');
 
-Route::get('/users/{name}', function($name){
-    return 'Hello' .' '. $name;
-});
-
-Route::fallback(function(){
+Route::fallback(function () {
     return '404 Not Found';
 });
