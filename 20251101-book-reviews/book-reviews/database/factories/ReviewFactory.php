@@ -1,0 +1,56 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Book;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Review>
+ */
+class ReviewFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            // データベースに既存のBookがあればそれらを使用し、なければ新しいBookを作成してそのIDを使用
+            'book_id' => Book::inRandomOrder()->value('id') ?? Book::factory()->create()->id,
+            'review' => fake()->paragraph(),
+            'rating' => fake()->numberBetween(1, 5),
+            'created_at' => $createdAt = fake()->dateTimeBetween('-2 year'),
+            'updated_at' => fake()->dateTimeBetween($createdAt),
+        ];
+    }
+
+    public function good()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'rating' => fake()->numberBetween(4, 5),
+            ];
+        });
+    }
+
+    public function average()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'rating' => fake()->numberBetween(2, 5),
+            ];
+        });
+    }
+
+    public function bad()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'rating' => fake()->numberBetween(1, 3),
+            ];
+        });
+    }
+}
