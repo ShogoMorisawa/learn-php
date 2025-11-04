@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Book extends Model
 {
     use HasFactory;
+
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
@@ -87,10 +88,59 @@ class Book extends Model
         return $query->orderByDesc('reviews_avg_rating');
     }
 
+    // 過去1ヶ月の人気な本
+    public function scopePopularLastMonth(Builder $query, int $minReviews = 2): Builder
+    {
+        $from = now()->subMonth();
+        $to = now();
+
+        return $query
+            ->popular($from, $to, $minReviews)           // 件数条件とカウント集計、件数順ソート
+            ->highestRated($from, $to)                   // 平均評価を計算
+            ->orderByDesc('reviews_count');               // 「人気順」を明示
+    }
+
+    // 過去6ヶ月の人気な本
+    public function scopePopularLast6Months(Builder $query, int $minReviews = 5): Builder
+    {
+        $from = now()->subMonths(6);
+        $to = now();
+
+        return $query
+            ->popular($from, $to, $minReviews)           // 件数条件とカウント集計、件数順ソート
+            ->highestRated($from, $to)                   // 平均評価を計算
+            ->orderByDesc('reviews_count');               // 「人気順」を明示
+    }
+
+    // 過去1ヶ月の平均評価が高い本
+    public function scopeHighestRatedLastMonth(Builder $query, int $minReviews = 2): Builder
+    {
+        $from = now()->subMonth();
+        $to = now();
+
+        return $query
+            ->popular($from, $to, $minReviews)           // 件数条件とカウント集計
+            ->highestRated($from, $to)                   // 平均評価を計算
+            ->orderByDesc('reviews_avg_rating');         // 「平均評価順」を明示
+    }
+
+    // 過去6ヶ月の平均評価が高い本
+    public function scopeHighestRatedLast6Months(Builder $query, int $minReviews = 5): Builder
+    {
+        $from = now()->subMonths(6);
+        $to = now();
+
+        return $query
+            ->popular($from, $to, $minReviews)           // 件数条件とカウント集計
+            ->highestRated($from, $to)                   // 平均評価を計算
+            ->orderByDesc('reviews_avg_rating');         // 「平均評価順」を明示
+    }
+
     private function applyReviewDateRange(Builder $query, ?string $from, ?string $to): void
     {
         if ($from !== null && $to !== null) {
             $query->whereBetween('created_at', [$from, $to]);
+
             return;
         }
 
