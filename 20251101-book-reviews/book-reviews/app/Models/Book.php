@@ -22,7 +22,7 @@ class Book extends Model
         return $query->where('title', 'like', '%' . $title . '%');
     }
 
-    // 指定期間のレビュー数を取得
+    // レビュー数を取得（日付範囲指定可能）
     public function scopeWithReviewsCount(Builder $query, ?string $from = null, ?string $to = null): Builder
     {
         return $query->withCount([
@@ -30,6 +30,16 @@ class Book extends Model
                 $this->applyReviewDateRange($reviewQuery, $from, $to);
             },
         ]);
+    }
+
+    // 平均評価を取得（日付範囲指定可能）
+    public function scopeWithAvgRating(Builder $query, ?string $from = null, ?string $to = null): Builder
+    {
+        return $query->withAvg([
+            'reviews' => function (Builder $reviewQuery) use ($from, $to) {
+                $this->applyReviewDateRange($reviewQuery, $from, $to);
+            },
+        ], 'rating');
     }
 
     // 指定期間のレビュー数を取得し、多い順に並べ替える
