@@ -11,16 +11,18 @@ use Illuminate\Database\Seeder;
 class AttendeeSeeder extends Seeder
 {
     use WithoutModelEvents;
+
     /**
      * Run the database seeds.
      */
-    public function run(): void {
+    public function run(): void
+    {
 
         $users = User::all();
         $events = Event::all();
 
         foreach ($users as $user) {
-            $eventsToAttend = $events->random(1,3);
+            $eventsToAttend = $events->random(1, 3);
 
             foreach ($eventsToAttend as $event) {
                 Attendee::factory()->create([

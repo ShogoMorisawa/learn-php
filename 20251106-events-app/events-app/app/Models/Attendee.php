@@ -20,4 +20,3 @@ class Attendee extends Model
         'event_id',
     ];
 }
-
