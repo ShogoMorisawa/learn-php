@@ -35,4 +35,12 @@ class Event extends Model
             'end_time' => 'datetime',
         ];
     }
+
+    /**
+     * Get the attendees for the event.
+     */
+    public function attendees()
+    {
+        return $this->hasMany(Attendee::class);
+    }
 }

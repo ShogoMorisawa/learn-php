@@ -27,4 +27,12 @@ class Attendee extends Model
     {
         return $this->belongsTo(Event::class);
     }
+
+    /**
+     * Get the user that the attendee belongs to.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
