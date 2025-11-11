@@ -1,14 +1,39 @@
 <div>
     <form wire:submit="createPoll">
-        <div class="mb-4">
-            <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
-            <input type="text" id="title" wire:model.live="title"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-            current title: {{ $title }}
+        <label>Poll Title</label>
+
+        <input type="text" wire:model.live="title" />
+
+        <div class="mb-4 mt-4">
+            <button class="btn" wire:click.prevent="addOption">投票項目を追加</button>
         </div>
-        <button type="submit"
-            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            Create Poll
-        </button>
+
+        @error('title')
+            <span class="text-red-500">{{ $message }}</span>
+        @enderror
+
+        <h3>投票項目</h3>
+        @foreach ($options as $index => $option)
+            <div class="mb-4">
+                <label>Option {{ $index + 1 }}</label>は、
+                <input type="text" wire:model.live="options.{{ $index }}" />です。
+                @error('options.' . $index)
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+                <button class="btn" wire:click.prevent="removeOption({{ $index }})">削除</button>
+            </div>
+        @endforeach
+
+        @error('options.*')
+            <span class="text-red-500">{{ $message }}</span>
+        @enderror
+
+        <button type="submit" class="btn">Create Poll</button>
     </form>
+
+    <div class="mt-8">
+        <h2 class="mb-4 mt-4 text-2xl">Available Polls</h2>
+
+        <livewire:polls />
+    </div>
 </div>
