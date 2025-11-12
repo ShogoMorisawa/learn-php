@@ -2,17 +2,16 @@
 
 namespace App\View\Components;
 
-use App\Models\Job;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class JobCard extends Component
+class Breadcrumbs extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct(public Job $job)
+    public function __construct(public array $links)
     {
         //
     }
@@ -22,6 +21,6 @@ class JobCard extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.job-card');
+        return view('components.breadcrumbs');
     }
 }
