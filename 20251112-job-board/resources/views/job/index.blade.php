@@ -28,8 +28,7 @@
                 </div>
             </div>
         </x-card>
-        <button
-            class="w-full rounded-md border border-slate-300 bg-white px-2.5 py-1.5 text-center text-sm font-semibold text-black shadow-sm hover:bg-slate-100 mb-4">検索</button>
+        <x-button type="submit" class="w-full rounded-md border border-slate-300 bg-white px-2.5 py-1.5 text-center text-sm font-semibold text-black shadow-sm hover:bg-slate-100 mb-4">検索</x-button>
     </form>
     @foreach ($jobs as $job)
         <x-job-card class="mb-4" :$job>
