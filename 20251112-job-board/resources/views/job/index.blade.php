@@ -17,12 +17,10 @@
                 </div>
                 <div>
                     <div class="mb-1 font-semibold">Experience</div>
-
                     <x-radio-group name="experience" :options="$experienceOptions" />
                 </div>
                 <div>
                     <div class="mb-1 font-semibold">Category</div>
-
                     <x-radio-group name="category" :options="$categoryOptions" />
                 </div>
             </div>
