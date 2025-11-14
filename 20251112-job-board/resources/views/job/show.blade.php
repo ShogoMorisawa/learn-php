@@ -11,7 +11,7 @@
         </div>
         <div class="mb-4">
             @can('apply', $job)
-                <x-link-button :href="route('job.application.create', $job)">
+                <x-link-button :href="route('job.applications.create', $job)">
                     Apply
                 </x-link-button>
             @else
