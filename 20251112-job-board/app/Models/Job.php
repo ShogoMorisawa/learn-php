@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 class Job extends Model
 {
@@ -24,6 +25,15 @@ class Job extends Model
     public function applications(): HasMany
     {
         return $this->hasMany(JobApplication::class);
+    }
+
+    public function hasUserApplied(Authenticatable|int $user): bool
+    {
+        $userId = $user instanceof Authenticatable ? $user->id : $user;
+        
+        return $this->applications()
+            ->where('user_id', $userId)
+            ->exists();
     }
 
     public function scopeFilter(Builder $query, array $filters): Builder

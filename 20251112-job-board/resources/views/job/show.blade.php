@@ -10,9 +10,15 @@
             </x-link-button>
         </div>
         <div class="mb-4">
-            <x-link-button :href="route('job.applications.create', $job)">
-                Apply
-            </x-link-button>
+            @can('apply', $job)
+                <x-link-button :href="route('job.application.create', $job)">
+                    Apply
+                </x-link-button>
+            @else
+                <div class="text-center text-sm font-medium text-slate-500">
+                    You already applied to this job
+                </div>
+            @endcan
         </div>
     </x-job-card>
 
