@@ -4,9 +4,14 @@
         <p class="mb-4 text-sm text-slate-500">
             {!! nl2br(e($job->description)) !!}
         </p>
-        <div>
+        <div class="mb-4">
             <x-link-button :href="route('jobs.index')">
                 Back
+            </x-link-button>
+        </div>
+        <div class="mb-4">
+            <x-link-button :href="route('job.applications.create', $job)">
+                Apply
             </x-link-button>
         </div>
     </x-job-card>
