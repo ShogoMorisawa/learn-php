@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\MyJobApplicationController;
 use Illuminate\Support\Facades\Route;
 
 // 求人関連のルート
@@ -17,4 +18,9 @@ Route::resource('auth', AuthController::class)->only(['create', 'store']);
 // 求人申請関連のルート
 Route::middleware('auth')->group(function () {
     Route::resource('job.applications', JobApplicationController::class)->only(['create', 'store']);
+});
+
+// マイ求人申請関連のルート
+Route::middleware('auth')->group(function () {
+    Route::resource('my-job-applications', MyJobApplicationController::class)->only(['index', 'destroy']);
 });
