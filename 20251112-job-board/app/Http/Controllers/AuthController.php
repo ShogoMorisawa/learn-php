@@ -39,7 +39,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             return redirect()->intended('/');
         } else {
-            return with('error', 'ログインに失敗しました。');
+            return back()->with('error', 'ログインに失敗しました。');
         }
     }
 
