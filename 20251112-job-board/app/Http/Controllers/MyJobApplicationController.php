@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JobApplication;
 use Illuminate\Http\Request;
 
 class MyJobApplicationController extends Controller
@@ -21,5 +22,13 @@ class MyJobApplicationController extends Controller
                 ->latest()
                 ->get(),
         ]);
+    }
+
+    public function destroy(Request $request, JobApplication $application)
+    {
+        $application->delete();
+        return redirect()
+            ->back()
+            ->with('success', 'Job application deleted.');
     }
 }

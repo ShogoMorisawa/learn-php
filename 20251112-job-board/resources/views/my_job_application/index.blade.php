@@ -20,7 +20,16 @@
                         ${{ number_format($application->job->applications_avg_expected_salary) }}
                     </div>
                 </div>
-                <div>Right</div>
+                <div>
+                    <form action="{{ route('my-job-applications.destroy', $application) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <x-button type="submit" class="text-xs text-slate-500">
+                            Delete
+                        </x-button>
+                    </form>
+
+                </div>
             </div>
         </x-job-card>
     @empty
