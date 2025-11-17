@@ -33,11 +33,13 @@
             </div>
         </x-job-card>
     @empty
-        <x-card>
-            <p class="text-center text-slate-500">
-                No job applications yet. <a href="{{ route('jobs.index') }}"
-                    class="text-indigo-600 hover:underline">Browse jobs</a>
-            </p>
-        </x-card>
+        <div class="rounded-md border border-dashed border-slate-300 p-8">
+            <div class="text-center font-medium">
+                No job application yet
+            </div>
+            <div class="text-center">
+                Go find some jobs <a class="text-indigo-500 hover:underline" href="{{ route('jobs.index') }}">here!</a>
+            </div>
+        </div>
     @endforelse
 </x-layout>
