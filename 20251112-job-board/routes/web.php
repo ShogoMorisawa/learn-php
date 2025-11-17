@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\MyJobApplicationController;
@@ -23,4 +24,9 @@ Route::middleware('auth')->group(function () {
 // マイ求人申請関連のルート
 Route::middleware('auth')->group(function () {
     Route::resource('my-job-applications', MyJobApplicationController::class)->only(['index', 'destroy']);
+});
+
+// 雇用主関連のルート
+Route::middleware('auth')->group(function () {
+    Route::resource('employer', EmployerController::class)->only(['create', 'store']);
 });
