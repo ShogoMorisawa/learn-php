@@ -16,7 +16,8 @@ class MyJobApplicationController extends Controller
                 ->with([
                     'job' => fn ($query) => $query
                         ->withCount('applications')
-                        ->withAvg('applications', 'expected_salary'),
+                        ->withAvg('applications', 'expected_salary')
+                        ->withTrashed(),
                     'job.employer',
                 ])
                 ->latest()
@@ -27,6 +28,7 @@ class MyJobApplicationController extends Controller
     public function destroy(Request $request, JobApplication $application)
     {
         $application->delete();
+
         return redirect()
             ->back()
             ->with('success', 'Job application deleted.');

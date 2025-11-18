@@ -20,6 +20,7 @@ class MyJobController extends Controller
                 ->user()
                 ->employer->jobs()
                 ->with(['employer', 'applications', 'applications.user'])
+                ->withTrashed()
                 ->get(),
         ]);
     }
@@ -30,6 +31,7 @@ class MyJobController extends Controller
     public function create()
     {
         $this->authorize('create', Job::class);
+
         return view('my_job.create');
     }
 
