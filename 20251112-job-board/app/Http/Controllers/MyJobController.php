@@ -13,6 +13,8 @@ class MyJobController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAnyEmployer', Job::class);
+
         return view('my_job.index', [
             'jobs' => $request
                 ->user()
@@ -27,6 +29,7 @@ class MyJobController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Job::class);
         return view('my_job.create');
     }
 
@@ -35,17 +38,11 @@ class MyJobController extends Controller
      */
     public function store(JobRequest $request)
     {
+        $this->authorize('create', Job::class);
+
         $request->user()->employer->jobs()->create($request->validated());
 
         return redirect()->route('my-jobs.index')->with('success', 'Job created successfully');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**
