@@ -10,9 +10,16 @@ class MyJobController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('my_job.index');
+        return view('my_job.index', [
+            'jobs' => $request
+                ->user()
+                ->employer
+                ->jobs()
+                ->with(['employer', 'applications', 'applications.user'])
+                ->get(),
+        ]);
     }
 
     /**
@@ -38,6 +45,7 @@ class MyJobController extends Controller
         ]);
 
         $request->user()->employer->jobs()->create($validated);
+
         return redirect()->route('my-jobs.index')->with('success', 'Job created successfully');
     }
 
