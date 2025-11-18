@@ -36,6 +36,6 @@ Route::middleware('auth')->group(function () {
 });
 
 // マイ求人関連のルート
-Route::middleware('auth')->group(function () {
-    Route::resource('my-job', MyJobController::class);
+Route::middleware('employer')->group(function () {
+    Route::resource('my-job', MyJobController::class)->only(['index']);
 });
