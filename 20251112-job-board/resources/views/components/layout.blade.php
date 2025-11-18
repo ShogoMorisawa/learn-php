@@ -27,7 +27,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('my-job.index') }}">
+                    <a href="{{ route('my-jobs.index') }}">
                         {{ auth()->user()->name ?? 'Anynomus' }}: Jobs
                     </a>
                 </li>

@@ -37,5 +37,5 @@ Route::middleware('auth')->group(function () {
 
 // マイ求人関連のルート
 Route::middleware('employer')->group(function () {
-    Route::resource('my-job', MyJobController::class)->only(['index']);
+    Route::resource('my-jobs', MyJobController::class);
 });
