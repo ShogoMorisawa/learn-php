@@ -8,7 +8,7 @@
     @forelse ($jobs as $job)
         <x-job-card :$job>
             <div class="text-xs text-slate-500">
-                @forelse ($job->jobApplications as $application)
+                @forelse ($job->applications as $application)
                     <div class="mb-4 flex items-center justify-between">
                         <div>
                             <div>{{ $application->user->name }}</div>
