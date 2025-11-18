@@ -28,7 +28,7 @@
 
                 <div>
                     <x-label for="experience" :required="true">Experience</x-label>
-                    <x-radio-group name="experience" :value="old('experience')" :all-option="false" :options="array_combine(
+                    <x-radio-group name="experience" :value="old('experience')" :requere-option-all="false" :options="array_combine(
                         array_map('ucfirst', \App\Models\Job::$experience),
                         \App\Models\Job::$experience,
                     )" />
@@ -36,7 +36,7 @@
 
                 <div>
                     <x-label for="category" :required="true">Category</x-label>
-                    <x-radio-group name="category" :all-option="false" :value="old('category')" :options="\App\Models\Job::$category" />
+                    <x-radio-group name="category" :requere-option-all="false" :value="old('category')" :options="\App\Models\Job::$category" />
                 </div>
 
                 <div class="col-span-2">

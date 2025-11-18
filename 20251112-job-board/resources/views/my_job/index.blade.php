@@ -8,6 +8,11 @@
     @forelse ($jobs as $job)
         <x-job-card :$job>
             <div class="text-xs text-slate-500">
+                <div class="mb-4 text-right">
+                    <x-link-button :href="route('my-jobs.edit', $job)">
+                        Edit Job
+                    </x-link-button>
+                </div>
                 @forelse ($job->applications as $application)
                     <div class="mb-4 flex items-center justify-between">
                         <div>
@@ -25,6 +30,9 @@
                 @empty
                     <div>No applications yet</div>
                 @endforelse
+                <div class="flex space-x-2">
+                    <x-link-button href="{{ route('my-jobs.edit', $job) }}">Edit</x-link-button>
+                </div>
             </div>
         </x-job-card>
     @empty
