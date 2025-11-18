@@ -27,6 +27,11 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('my-job.index') }}">
+                        {{ auth()->user()->name ?? 'Anynomus' }}: Jobs
+                    </a>
+                </li>
+                <li>
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         @method('DELETE')
