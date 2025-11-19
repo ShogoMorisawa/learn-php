@@ -13,7 +13,7 @@ Route::redirect('/', '/jobs');
 Route::resource('jobs', JobController::class)->only(['index', 'show']);
 
 // 認証関連のルート
-Route::get('login', fn() => to_route('auth.create'))->name('login');
+Route::get('login', fn () => to_route('auth.create'))->name('login');
 Route::delete('logout', [AuthController::class, 'destroy'])->name('logout');
 Route::resource('auth', AuthController::class)->only(['create', 'store']);
 
@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
 // マイ求人関連のルート
 Route::middleware('employer')->group(function () {
     Route::resource('my-jobs', MyJobController::class);
-    Route::patch('my-jobs/{my_job}/restore', [MyJobcontroller::class, 'restore'])->name(
-        'my-jobs.restore',
-    );
+    Route::patch('my-jobs/{my_job}/restore', [MyJobcontroller::class, 'restore'])
+        ->name('my-jobs.restore')
+        ->withTrashed();
 });
